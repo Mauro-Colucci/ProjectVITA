@@ -1,0 +1,122 @@
+<%- include('layout/header.ejs') %> 
+
+<style>
+  .form-floating>.form-control.textArea{
+    height: auto;
+  }
+
+  .form-floating:focus-within {
+    z-index: 2;
+  }
+
+  #folatingTitle{
+       margin-bottom: -1px;
+       border-bottom-right-radius: 0;
+       border-bottom-left-radius: 0;
+   }
+   #floatingDescription{
+       margin-bottom: 10px;
+       border-top-left-radius: 0;
+       border-top-right-radius: 0;
+   }
+</style>
+           
+
+          <main>
+            <div class="row mt-4">
+
+              <div class="col-md-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Priority</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                    <!-- check other bootstrap classes for anchors -->
+                    <li class="list-group-item"><a href="#" class="nav-link">An item</a></li>
+                    <li class="list-group-item">A second item</li>
+                    <li class="list-group-item">A third item</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col-md-9">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="wrapper">
+                        <h5 class="card-title">Open Public Projects</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">See all active projects marked for public view!</h6>
+                      </div>
+
+                      <!-- modal button to add new projects -->
+                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        + Project
+                      </button>
+
+                       <!-- form Modal -->
+                       <div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Add new project</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+
+                            <form action="/post/createPost" method="POST">
+
+                              <div class="modal-body mx-4">
+                                <div class="form-floating">
+                                  <input type="text" class="form-control" id="folatingTitle" name="projectName" placeholder="Project title">
+                                  <label for="folatingTitle">Project title</label>
+                                </div>
+                                <div class="form-floating">
+                                  <textarea rows="5" class="form-control textArea" id="floatingDescription" name="description" placeholder="Project description"></textarea>
+                                  <label for="floatingDescription">Project description</label>
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Create</button>
+                              </div>
+
+                            </form>
+                        </div>
+                        </div>
+                      </div>
+                      <!-- end of form Modal -->
+
+                    </div>
+                    <div class="table-responsive">
+                      <table id="myTable" class="table table-hover">
+                        <thead class="table-dark">
+                          <tr>
+                            <th scope="col">#</th>
+                            <!-- remove the inline css -->
+                            <th scope="col" style="white-space: nowrap;">Project name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Owner</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% projects.forEach((project, i) => { %>
+                           
+                          <tr>
+                              <th scope="row"><%= i+1 %> </th>
+                              <!-- remove the inline css -->
+                              <td><a href="#" class="nav-link" style="white-space: nowrap;"><%= project.projectName %></a></td>
+                              <td><%= project.description %></td>
+                              <td><%= project.user.userName %> </td>
+                          </tr>
+
+                          <% }) %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                 
+                </div>
+              </div>
+            </div>
+          </main>
+
+<%- include('layout/footer.ejs') %> 

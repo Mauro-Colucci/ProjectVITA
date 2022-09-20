@@ -1,0 +1,357 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+:root{
+    --primary-bg: #1d1d1d;
+}
+
+body{
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    /* font-size: 62.5%; */
+    margin: 0;
+    padding: 0;
+}
+
+.main-content{
+    margin-left: 60px;
+    transition: all .5s ease;
+}
+
+.wrapper.active .main-content{
+    margin-left: 250px;
+    width: calc(100%-250px);
+}
+
+.main-content main{
+    padding: 0 24px;
+}
+
+.main-content .navbar{
+    margin-left: 60px;
+    transition: all .5s ease;
+}
+
+.wrapper.active .main-content .navbar{
+    margin-left: 250px;
+}
+
+.sidebar{
+    height: 100%;
+    width: 60px;
+    background-image: url("../imgs/photo-1541661538396-53ba2d051eed.avif");
+    object-fit: cover;
+    background-position: center;
+   /*  background-size: cover;
+    background-position: center center; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: all .5s ease;
+    /* z-index to fix the hover text showing behind the bootstrap card, same as with .topNavbar */
+    z-index: 100;
+    box-shadow: 5px 60px 18px rgb(0 0 0 / 30%);
+}
+
+.sidebar::after{
+    background: linear-gradient(to bottom, #282828 0%, rgba(17, 17, 17, 0.7) 100%);
+    background-size: 150% 150%;
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: .7;
+    z-index: -1;
+}
+
+.sidebar::before{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: #11101d;
+    opacity: .3;
+}
+
+.wrapper.active .sidebar{
+    width: 250px;
+}
+
+.sidebar .logo_content {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sidebar .logo_content .logo{
+    color: rgb(231, 235, 37);
+    display: flex;
+    height: 59px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.sidebar .logo_content .logo_name{
+    display: none;
+    opacity: 0;
+}
+
+
+.wrapper.active .sidebar .logo_content .logo_name{
+    display: flex;
+    opacity: 1;
+    transition: all .5s ease;
+}
+
+.logo_content .logo i{
+    font-size: 28px;
+    margin-right: 5px;
+    z-index: 1;
+}
+
+.logo_content .logo .logo_name{
+    font-size: 20px;
+    font-weight: 400;
+    white-space: nowrap;
+    z-index: 1;
+}
+
+.sidebar #btn{
+    color: rgb(238, 189, 238);
+    font-size: 20px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    transform: rotate(180deg);
+    transition: all .5s ease;
+}
+
+.wrapper.active .sidebar #btn{
+    transform: rotate(0deg);
+}
+
+.sidebar ul{
+    margin-top: 20px;
+    padding: 0 5px;
+}
+
+.sidebar ul li{
+    height: 50px;
+    width: 100%;
+    position: relative;
+    list-style: none;
+    line-height: 50px;
+}
+
+.sidebar ul li .flag_text{
+    position: absolute;
+    left: 122px;
+    top: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 6px;
+    height: 35px;
+    width: 122px;
+    line-height: 35px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    transition: 0s;
+    opacity: 0;
+    pointer-events: none;
+    display: block;
+}
+
+.wrapper.active .sidebar ul li .flag_text{
+    display: none;
+}
+
+.sidebar ul li:hover .flag_text{
+    top: 50%;
+    transition: all .5s ease;
+    opacity: 1;
+}
+
+.sidebar ul li input{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    border-radius: 12px;
+    outline: none;
+    border: none;
+    background-color: #1d1b31;
+    padding-left: 50px;
+    font-size: 18px;
+    color: #fff;
+}
+
+.sidebar ul li .bx-search{
+    position: absolute;
+    z-index: 99;
+    color: #fff;
+    font-size: 22px;
+    transition: all .5s ease;
+}
+
+.sidebar ul li .bx-search:hover{
+    background-color: #fff;
+    color: #1d1b31;
+}
+
+.sidebar ul li a{
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: all .4s ease;
+    border-radius: 12px;
+    white-space: nowrap;
+}
+
+.sidebar ul li a:hover{
+    color: #11101d;
+    background-color: rgba(255, 255, 255, .7);
+}
+
+.sidebar ul li i{
+    height: 50px;
+    min-width: 50px;
+    border-radius: 12px;
+    line-height: 50px;
+    text-align: center;
+}
+
+.sidebar .links_name{
+    opacity: 0;
+    pointer-events: none;
+    transition: all .5s ease;
+}
+
+.wrapper.active .sidebar .links_name{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.sidebar .profile_content{
+    position: absolute;
+    color: #fff;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.sidebar .profile_content .profile{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: #1d1b31;
+    opacity: .7;
+    cursor: pointer;
+}
+
+/* Top navbar */
+
+.topNav{
+    position: sticky;
+    top: 0;
+    height: 60px;
+    background-color: #faf9f6;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    box-shadow: 0 0 18px rgb(0 0 0 / 20%);
+}
+
+.topNavWrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0 20px;
+    position: relative;
+}
+
+.topNavSearch{
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    border: 1px solid  rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    color: #282828;
+}
+
+.topNavInput {
+    border: none;
+    background-color: transparent;
+    outline: none;
+    color: inherit;
+    width: 100%;
+    font-size: 16px;
+}
+
+.topNavUser{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #282828;
+    cursor: pointer;
+    position: relative;
+    height: 100%;
+}
+
+.topNavAvatar {
+    height: 42px;
+    width: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #999;
+    
+}
+
+@media (max-width: 600px){
+    .topNavLeft{
+        display: none;
+    }
+    .topNavSearch{
+        width: 65%;
+    }
+    .topNavUser span{
+        display: none;
+    }
+}
+
+/* Top navbar end*/
+
+/*dataTable*/
+
+.page-link{
+    border: none;
+    height: 34px;
+    width: 34px;
+    text-align: center;
+    border-radius: 50%;
+}
+
+.page-link:hover{
+    scale: .9
+}
+
+.active > .page-link:hover{
+    scale: 1
+}
+
+.next .page-link:hover,
+.previous .page-link:hover{
+    background-color: transparent;
+}
+
+.page-link:focus{
+    box-shadow: none;
+}
+/*dataTable end*/

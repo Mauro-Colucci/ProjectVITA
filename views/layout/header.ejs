@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project VITA</title>
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    
+</head>
+<body>
+    <div class="wrapper">
+        <div class="main-content">
+          <header>
+            
+             <!--Top Navbar-->
+
+             <nav class="topNav">
+              <div class="topNavWrapper">
+                <div class="topNavLeft">
+                  <span><%- page %></span>
+                </div>
+
+                <% if (showSearch) { %>
+                    <div action="" class="topNavSearch">
+                        <input id="searchInput" type="search" placeholder="Search..." class="topNavInput">
+                        <i class='bx bx-search-alt-2' ></i>
+                    </div>
+                <% } %>
+                
+                <div class="topNavUser">
+                    <a class="dropdown-toggle nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="<%= user.avatar || 'imgs/defaultAvatar.webp' %>" alt="" loading="lazy" class="topNavAvatar">
+                        <span><%= user.userName %> </span>
+                    </a>
+                  
+                  <ul class="topNavUserDropdown dropdown-menu">
+                    <li class="dropdownContent "><a class="dropdown-item" href="/profile">Profile</a></li>
+                    <li class="dropdownContent "><a class="dropdown-item" href="#">Theme</a></li>
+                    <li class="dropdownContent "><a class="dropdown-item" href="/project">My Projects</a></li>
+                    <li class="dropdownHr"><hr class=""></li>
+                    <li class="dropdownContent "><a class="dropdown-item" href="/logout">Logout</a></li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+
+            <!--Top Navbar end-->
+            <!-- *************************************** -->
+            <!--Sidebar start-->
+
+            <nav class="sidebar">
+              <div class="logo_content">
+                  <div class="logo">
+                      <i class='bx bxl-javascript'></i>
+                      <div class="logo_name">Project VITA</div>
+                  </div>
+              </div>
+              <ul class="nav_list">
+                  <li>
+                      <a href="/dashboard">
+                          <i class='bx bx-grid-alt' ></i>
+                          <span class="links_name">Dashboard</span>
+                      </a>
+                      <span class="flag_text">Dashboard</span>
+                  </li>
+                  <li>
+                      <a href="/profile">
+                          <i class='bx bx-user' ></i>
+                          <span class="links_name">Profile</span>
+                      </a>
+                      <span class="flag_text">Profile</span>
+                  </li>
+                  <li>
+                      <a href="#">
+                          <i class='bx bx-pie-chart-alt-2' ></i>
+                          <span class="links_name">Analitycs</span>
+                      </a>
+                      <span class="flag_text">Analitycs</span>
+                  </li>
+                  <li>
+                      <a href="/project">
+                          <i class='bx bx-folder' ></i>
+                          <span class="links_name">My projects</span>
+                      </a>
+                      <span class="flag_text">My projects</span>
+                  </li>
+                <!--   <li>
+                      <a href="#">
+                          <i class='bx bx-cart' ></i>
+                          <span class="links_name">Order</span>
+                      </a>
+                      <span class="flag_text">Order</span>
+                  </li> -->
+                  <li>
+                      <a href="#">
+                          <i class='bx bx-heart' ></i>
+                          <span class="links_name">Saved</span>
+                      </a>
+                      <span class="flag_text">Saved</span>
+                  </li>
+                  <li>
+                      <a href="#">
+                          <i class='bx bx-cog' ></i>
+                          <span class="links_name">Settings</span>
+                      </a>
+                      <span class="flag_text">Settings</span>
+                  </li>
+              </ul>
+              <div class="profile_content">
+                  <div class="profile">
+                    <i class='bx bx-chevron-left-circle' id="btn"></i>
+                  </div>
+              </div>
+          </nav>
+
+          <!--Sidebar end-->
+
+          </header>
