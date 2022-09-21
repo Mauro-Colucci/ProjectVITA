@@ -108,9 +108,9 @@
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-between">
 
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                Password change
-                            </button>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Password change</button>
+
+                            <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#socialsModal">Socials</button>
 
                             <button type="submit" class="btn btn-success">Update Profile</button>
 
@@ -143,6 +143,40 @@
                             </div>
                         </div>
                         <!-- end of password change Modal -->
+
+                         <!-- socials Modal -->
+                         <div class="modal fade " id="socialsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="socialsModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="socialsModalLabel">Enter new password</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body mx-4">                                
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1"><i class='bx bxl-github'></i></span>
+                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                        <span class="input-group-text" id="basic-addon2"><i class='bx bxl-twitter' ></i></span>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon3"><i class='bx bxl-linkedin-square' ></i></span>
+                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon3">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon4">
+                                        <span class="input-group-text" id="basic-addon4"><i class='bx bxl-twitch' ></i></span>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Accept</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <!-- end of socials Modal -->
   
                     </form>
                 </div>
