@@ -90,7 +90,6 @@
                       <table id="myTable" class="table table-hover">
                         <thead class="table-dark">
                           <tr>
-                            <th scope="col">#</th>
                             <!-- remove the inline css -->
                             <th scope="col" style="white-space: nowrap;">Project name</th>
                             <th scope="col">Description</th>
@@ -98,10 +97,9 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <% projects.forEach((project, i) => { %>
+                          <% projects.forEach(project => { %>
                            
                           <tr>
-                              <th scope="row"><%= i+1 %> </th>
                               <!-- remove the inline css -->
                               <td><a href="#" class="nav-link" style="white-space: nowrap;"><%= project.projectName %></a></td>
                               <td><%= project.description %></td>
