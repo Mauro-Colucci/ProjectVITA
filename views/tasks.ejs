@@ -1,0 +1,50 @@
+<%- include('./layout/header.ejs') %> 
+
+<main>
+    <div class="row mt-4">
+  
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="wrapper">
+                <h5 class="card-title">My Tasks</h5>
+              </div>
+  
+            </div>
+            <div class="table-responsive">
+              <table id="myTable" class="table table-hover">
+                <thead class="table-dark">
+                  <tr>
+                    <!-- remove the inline css -->
+                    <th style="white-space: nowrap;">Project name</th>
+                    <th>Description</th>
+                    <th>Created By</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% tasks.forEach(task => { %>
+                    
+                  <tr>
+                      <!-- remove the inline css -->
+                      <td><a href="#" class="nav-link" style="white-space: nowrap;"><%= task.project %></a></td>
+                      <td><%= task.description %></td>
+                      <td><%= task.createdBy.userName %></td>
+                      <td><%= task.tag %> </td>
+                      <td><%= task.status %> </td>
+                  </tr>
+  
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+</main>
+
+<%- include('./layout/footer.ejs') %> 

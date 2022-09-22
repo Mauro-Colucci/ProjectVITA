@@ -11,7 +11,7 @@
         <script>
             $(document).ready(function () {
                 const table = $('#myTable').DataTable({
-                    pageLength: 5,
+                    pageLength: 6,
                     language: {
                         /* search: "_INPUT_",
                         searchPlaceholder: "Search...", */
@@ -26,24 +26,9 @@
                     dom: 'rt<"d-flex flex-row-reverse justify-content-between mt-4"ip>'
                   
                 });
-
-                const projectTable = $('#myProjectsTable').DataTable({
-                    language: {
-                        info: "_START_ - _END_ / _TOTAL_",
-                        infoEmpty: "0 entries",
-                        infoFiltered: "(from _MAX_ total)",
-                        paginate: {
-                            next: "<i class='bx bx-chevrons-right'></i>",
-                            previous: "<i class='bx bx-chevrons-left'></i>"
-                        }
-                    },
-                    dom: 'rt<"d-flex flex-row-reverse justify-content-between mt-4"ip>'
-                  
-                });
                 
                 $('#searchInput').on( 'keyup', function () {
                     table.search( this.value ).draw();
-                    projectTable.search( this.value ).draw();
                 } );  
     
             });

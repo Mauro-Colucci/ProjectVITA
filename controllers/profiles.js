@@ -1,10 +1,8 @@
 const cloudinary = require("../middleware/cloudinary");
 const validator = require("validator");
+const User = require("../models/User");
 bcrypt = require('bcrypt')
 
-//will be removed/changed
-const Post = require("../models/Post");
-const User = require("../models/User");
 
 module.exports = {
   getProfile: async (req, res) => {
@@ -20,7 +18,6 @@ module.exports = {
   editProfile: async (req, res) =>{
 
     let updateQuery = {}
-
     const validationErrors = [];
 
     try {
@@ -58,57 +55,5 @@ module.exports = {
     } catch (err) {
       console.log(err);
     }
-  },
-  //getDashboard
-  getFeed: async (req, res) => {
-    try {
-      //need to fetch info for the dashboard
-      const posts = await Post.find({publish: true}).sort({ createdAt: "asc" }).populate('user').lean();
-      res.render("dashboard.ejs", { projects: posts, user: req.user, page: "Dashboard",rowsShown:true, showSearch: true });
-    } catch (err) {
-      console.log(err);
-    }
-  },
-  //getProject
-  getPost: async (req, res) => {
-    try {
-      const post = await Post.findById(req.params.id);
-      res.render("post.ejs", { post: post, user: req.user });
-    } catch (err) {
-      console.log(err);
-    }
-  },
-  //createProject
-  createPost: async (req, res) => {
-    try {
-      //const result = await cloudinary.uploader.upload(req.file.path);
-
-      await Post.create({
-        projectName: req.body.projectName,
-        //image: result.secure_url,
-        //cloudinaryId: result.public_id,
-        description: req.body.description,
-        user: req.user.id,
-      });
-      console.log("Post has been added!");
-      res.redirect("/dashboard");
-    } catch (err) {
-      console.log(err);
-    }
-  },
-  //deleteProject
-  deletePost: async (req, res) => {
-    try {
-      // Find post by id
-      let post = await Post.findById({ _id: req.params.id });
-      // Delete image from cloudinary
-      await cloudinary.uploader.destroy(post.cloudinaryId);
-      // Delete post from db
-      await Post.remove({ _id: req.params.id });
-      console.log("Deleted Post");
-      res.redirect("/profile");
-    } catch (err) {
-      res.redirect("/profile");
-    }
-  },
-};
+  }
+}

@@ -1,0 +1,134 @@
+<%- include('./layout/header.ejs') %> 
+
+<main>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="wrapper">
+                            <h5 class="card-title">My Tasks</h5>
+                        </div>
+                        <!-- modal button to add new projects -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        + Task
+                        </button>
+
+                        <!-- form Modal -->
+                        <div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Add new task</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <form action="/task/createTask" method="POST">
+                                        <input hidden name="project" value="<%= id %>">
+                                        <div class="modal-body mx-2">
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="folatingTitle" name="taskName" placeholder="Title">
+                                                <label for="folatingTitle">Title</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <textarea rows="5" class="form-control" style="height: auto;" id="floatingDescription" name="description" placeholder="Description"></textarea>
+                                                <label for="floatingDescription">Description</label>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 mb-3">
+                                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="tag">
+                                                        <option selected>Type</option>
+                                                        <option value="bug">Bug</option>
+                                                        <option value="new feature">New feature</option>
+                                                        <option value="todo">To do</option>
+                                                        <option value="misc">Misc.</option>
+                                                      </select>
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="priority">
+                                                        <option selected>Priority</option>
+                                                        <option value="high">High</option>
+                                                        <option value="moderate">Moderate</option>
+                                                        <option value="low">Low</option>
+                                                      </select>
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="status">
+                                                        <option selected>Status</option>
+                                                        <option value="new">New</option>
+                                                        <option value="in progress">In progress</option>
+                                                        <option value="closed">Closed</option>
+                                                      </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Create</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end of form Modal -->
+                    </div>
+                    <div class="table-responsive">
+                        <table id="myTable" class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                            <!-- remove the inline css -->
+                            <th style="white-space: nowrap;">Task name</th>
+                            <th>Description</th>
+                            <th>Created By</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Priority</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% task?.forEach(ele => { %>
+                            
+                            <tr>
+                                <!-- remove the inline css -->
+                                <td><a href="#" class="nav-link" style="white-space: nowrap;"><%= ele.taskName %></a></td>
+                                <td><%= ele.description %></td>
+                                <td><%= ele.createdBy.userName %></td>
+                                <td><%= ele.tag %> </td>
+                                <td><%= ele.status %> </td>
+                                <td><%= ele.priority %> </td>
+                            </tr>
+
+                            <% }) %>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>   
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="wrapper">
+                  <h5 class="card-title">Display selected task here</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="wrapper">
+                    <h5 class="card-title">Comments section here</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</main>
+
+<%- include('./layout/footer.ejs') %> 

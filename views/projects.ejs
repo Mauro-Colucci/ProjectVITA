@@ -14,7 +14,7 @@
 
             </div>
             <div class="table-responsive">
-              <table id="myProjectsTable" class="table table-hover">
+              <table id="myTable" class="table table-hover">
                 <thead class="table-dark">
                   <tr>
                     <!-- remove the inline css -->
@@ -28,11 +28,6 @@
                       <!-- remove the inline css -->
                       <td class="d-flex justify-content-between">
                         <a href="/project/<%= project.id %> " class="nav-link projectTable" style="white-space: nowrap;"><%= project.projectName %></a>
-
-                        <!-- use a modal for the edit and display the issues in the col-md-9? -->
-                        <form action="">
-                          <button class='btn btn-sm btn-outline-dark bx bx-edit-alt'></button>
-                        </form>
                       </td>
   
                   </tr>
