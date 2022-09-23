@@ -74,8 +74,7 @@
                         <table id="myTable" class="table table-hover">
                         <thead class="table-dark">
                             <tr>
-                            <!-- remove the inline css -->
-                            <th style="white-space: nowrap;">Task name</th>
+                            <th class="text-nowrap">Task name</th>
                             <th>Description</th>
                             <th>Created By</th>
                             <th>Type</th>
@@ -87,8 +86,7 @@
                             <% task?.forEach(ele => { %>
                             
                             <tr>
-                                <!-- remove the inline css -->
-                                <td><a href="#" class="nav-link" style="white-space: nowrap;"><%= ele.taskName %></a></td>
+                                <td><a href="/task/singleTask/<%= ele._id %>"  class="text-nowrap text-decoration-none text-reset"><%= ele.taskName %></a></td>
                                 <td><%= ele.description %></td>
                                 <td><%= ele.createdBy.userName %></td>
                                 <td><%= ele.tag %> </td>
@@ -105,30 +103,41 @@
         </div>
     </div>
 
+    <% if (typeof singleTask !== 'undefined') { %>
+     
     <div class="row mt-4">
-        <div class="col-md-8">
+        <div class="col-md-7">
           <div class="card">
             <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="wrapper">
-                  <h5 class="card-title">Display selected task here</h5>
-                </div>
-              </div>
+              <h1><%= singleTask?.taskName %> </h1>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
             <div class="card">
               <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="wrapper">
-                    <h5 class="card-title">Comments section here</h5>
-                  </div>
-                </div>
+                <h5 class="card-title">Comments section here</h5>
+                <form action="/comment/createComment/<%= singleTask?.id %>" method="POST">
+                    <div class="input-group mb-3">
+                        <textarea class="form-control" placeholder="write a comment..." name="comment" aria-label="comment area" aria-describedby="button-addon2"></textarea>
+                        <button class="btn btn-outline-primary" type="submit" id="button-addon2">Post</button>
+                    </div>
+                    <% comments?.forEach(element => { %>
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <%= element.comment %> 
+                            </div>
+                        </div>
+                    <% }) %>
+                   
+                </form>
               </div>
             </div>
           </div>
     </div>
+
+    <% } %>
+
 </main>
 
 <%- include('./layout/footer.ejs') %> 

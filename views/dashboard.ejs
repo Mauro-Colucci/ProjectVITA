@@ -1,27 +1,5 @@
 <%- include('layout/header.ejs') %> 
 
-<style>
-  .form-floating>.form-control.textArea{
-    height: auto;
-  }
-
-  .form-floating:focus-within {
-    z-index: 2;
-  }
-
-  #folatingTitle{
-       margin-bottom: -1px;
-       border-bottom-right-radius: 0;
-       border-bottom-left-radius: 0;
-   }
-   #floatingDescription{
-       margin-bottom: 10px;
-       border-top-left-radius: 0;
-       border-top-right-radius: 0;
-   }
-</style>
-           
-
 <main>
   <div class="row mt-4">
 
@@ -90,8 +68,7 @@
             <table id="myTable" class="table table-hover">
               <thead class="table-dark">
                 <tr>
-                  <!-- remove the inline css -->
-                  <th scope="col" style="white-space: nowrap;">Project name</th>
+                  <th scope="col" class="text-nowrap">Project name</th>
                   <th scope="col">Description</th>
                   <th scope="col">Owner</th>
                 </tr>
@@ -100,8 +77,7 @@
                 <% projects.forEach(project => { %>
                   
                 <tr>
-                    <!-- remove the inline css -->
-                    <td><a href="/task/<%= project._id %> " class="nav-link" style="white-space: nowrap;"><%= project.projectName %></a></td>
+                    <td><a href="/task/<%= project._id %> " class="text-nowrap text-decoration-none text-reset"><%= project.projectName %></a></td>
                     <td><%= project.description %></td>
                     <td><%= project.user.userName %> </td>
                 </tr>

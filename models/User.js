@@ -23,6 +23,14 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   }, */
+  personalDetails:{
+    company: {type: String},
+    possition: {type: String},
+    firstName: {type: String},
+    lastName: {type: String},
+    country: {type: String},
+    aboutMe: {type: String}
+  },
   cloudinaryId: {
     type: String
   },

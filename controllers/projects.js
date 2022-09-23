@@ -12,22 +12,39 @@ module.exports = {
       try {
           const projects = await Project.find({user: req.user.id});
           if(req.params.id){
-            project = await Project.findById(req.params.id)
+            project = await Project.findById(req.params.id).populate('user').lean()
           }
           res.render("projects", { projects: projects, singleProject: project, page: "My Projects", user: req.user, showSearch: true});
       } catch (err) {
           console.log(err);
       }
   },
-  //////////////////////////////////////////
-  testPost: (req, res) =>{
-    console.log(req.body)
+  updateProject: async(req, res) =>{
+    let result
+
+    try {
+      const project = await Project.findById(req.params.id)      
+
+      if(req.file){
+        project.cloudinaryId && await cloudinary.uploader.destroy(project.cloudinaryId);
+        result = await cloudinary.uploader.upload(req.file.path);
+      }
+      await project.updateOne({
+        image: result?.secure_url,
+        cloudinaryId: result?.public_id,
+        description: req.body.description,
+        publish: req.body.publish? true: false,
+        projectName: req.body.projectName
+      });
+      res.redirect(`/project/${project.id}`);
+    } catch (err) {
+      console.log(err);
+    }
   },
   getFeed: async (req, res) => {
     try {
       //need to fetch info for the dashboard
       const projects = await Project.find().sort({ createdAt: "asc" }).populate('user').lean();
-      console.log(projects)
       res.render("dashboard.ejs", { projects: projects, user: req.user, page: "Dashboard", showSearch: true });
     } catch (err) {
       console.log(err);

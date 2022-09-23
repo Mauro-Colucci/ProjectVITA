@@ -17,17 +17,15 @@
               <table id="myTable" class="table table-hover">
                 <thead class="table-dark">
                   <tr>
-                    <!-- remove the inline css -->
-                    <th style="white-space: nowrap;">Project name</th>
+                    <th class="text-nowrap">Project name</th>
                   </tr>
                 </thead>
                 <tbody>
                   <% projects.forEach(project => { %>
                    
                   <tr>
-                      <!-- remove the inline css -->
                       <td class="d-flex justify-content-between">
-                        <a href="/project/<%= project.id %> " class="nav-link projectTable" style="white-space: nowrap;"><%= project.projectName %></a>
+                        <a href="/project/<%= project.id %> " class="text-nowrap text-decoration-none text-reset"><%= project.projectName %></a>
                       </td>
   
                   </tr>
@@ -40,6 +38,7 @@
          
         </div>
 
+        <% if (typeof singleProject !== 'undefined') { %>
 
         <div class="card overflow-hidden my-4">
             <img src= <%= singleProject?.image || "https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/styles/950/public/media/image/2019/05/rick-morty-temporada-4-llegara-noviembre.jpg?itok=6Bguw2Cu" %> alt="">
@@ -49,39 +48,21 @@
       <div class="col-md-9">
         <div class="card">
            
-        <h5 class="card-header"><%= singleProject? singleProject.projectName : "create an editable form for a single project" %> </h5>
+        <h5 class="card-header">Selected project</h5>
           <div class="card-body">
-            <form action="/project/test?_method=PUT" enctype="multipart/form-data" method="POST">
+            <form action="/project/editProject/<%= singleProject._id %>?_method=PUT" enctype="multipart/form-data" method="POST">
                 <div class="row">
                     <div class="col-md-4 mb-3">
-                        <label class="form-label">Company</label>
-                        <input type="text" class="form-control" name="Company" value="Creative Code Inc.">
+                        <label class="form-label">Project name</label>
+                        <input type="text" class="form-control" name="projectName" value="<%= singleProject.projectName %>" >
                     </div>
                     <div class="col-md-4 mb-3">
                         <label  class="form-label">Username</label>
-                        <input type="text" class="form-control" name="Username" value="<%= user.userName %> " disabled>
+                        <input type="text" class="form-control" name="Username" value="<%= singleProject.user.userName %> " disabled>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" value="<%= user.email %>" disabled>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label  class="form-label">First Name</label>
-                        <input type="text" class="form-control" placeholder="Company" value="Mike">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label  class="form-label">Last Name</label>
-                        <input type="text" class="form-control" placeholder="Company" value="Mike">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12 mb-3">
-                        <label  class="form-label">Address</label>
-                        <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
+                        <input type="email" class="form-control" id="exampleFormControlInput1" value="<%= singleProject.user.email %>" disabled>
                     </div>
                 </div>
 
@@ -102,14 +83,14 @@
                     <div class="mb-3">
                       <label class="form-check-label me-2" for="exampleCheck1" >Make your project public?</label>
                       <!-- this comparison works!! need to refactor using it -->
-                      <input type="checkbox" class="form-check-input" <%= singleProject?.publish? "checked": "" %>  id="exampleCheck1">
+                      <input type="checkbox" class="form-check-input" <%= singleProject.publish? "checked": "" %>  id="exampleCheck1" name="publish">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-12 mb-3 ">
                         <label class="form-label">Project description</label>
-                        <textarea rows="5" class="form-control" name="description"><%= singleProject? singleProject.description : "loremipsum" %> </textarea>
+                        <textarea rows="5" class="form-control" name="description"><%= singleProject.description %> </textarea>
                     </div>
                 </div>
 
@@ -120,6 +101,9 @@
         </div>
         </div>
       </div>
+
+      <% } %>
+
     </div>
   </main>
 

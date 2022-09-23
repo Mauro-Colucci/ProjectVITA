@@ -8,7 +8,7 @@ router.get("/:id?", ensureAuth, projectsController.getProjects);
 
 router.post("/createProject", projectsController.createProject);
 
-//router.put('/test',upload.single("file"), projectsController.testPost)
+router.put('/editProject/:id',upload.single("file"), projectsController.updateProject)
 
 //router.delete("/deletePost/:id", projectsController.deletePost);
 

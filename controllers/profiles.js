@@ -17,7 +17,8 @@ module.exports = {
   },
   editProfile: async (req, res) =>{
 
-    let updateQuery = {}
+    let newPassword
+    let result
     const validationErrors = [];
 
     try {
@@ -34,7 +35,7 @@ module.exports = {
           req.flash("errors", validationErrors);
           return res.redirect("/profile");
         }
-        updateQuery.password = await bcrypt.hash(req.body.newPassword, 10)
+        newPassword = await bcrypt.hash(req.body.newPassword, 10)
       }
 
       const user = await User.findById(req.params.id)      
@@ -42,15 +43,22 @@ module.exports = {
       if(req.file){
         //IF there's a cloudinary id stored THEN destroy it, if I don't perform this check it'll crash if the user doesn't have anything in that field
         user.cloudinaryId && await cloudinary.uploader.destroy(user.cloudinaryId);
-        const result = await cloudinary.uploader.upload(req.file.path);
-        updateQuery.avatar = result.secure_url
-        updateQuery.cloudinaryId = result.public_id
-      } else {
-        updateQuery.avatar = user.avatar
-        updateQuery.cloudinaryId = user.cloudinaryId
-      }
+        result = await cloudinary.uploader.upload(req.file.path);
+      } 
 
-      await user.updateOne(updateQuery);
+      await user.updateOne({
+        avatar: result?.secure_url,
+        cloudinaryId: result?.public_id,
+        password: newPassword,
+        personalDetails: {
+          company: req.body.company,
+          possition: req.body.possition,
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          country: req.body.country,
+          aboutMe: req.body.aboutMe
+        }
+      });
       res.redirect("/profile");
     } catch (err) {
       console.log(err);

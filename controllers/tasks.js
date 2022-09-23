@@ -5,23 +5,35 @@ bcrypt = require('bcrypt')
 const Task = require('../models/Task')
 const Project = require("../models/Project");
 const User = require("../models/User");
+const Comment = require("../models/Comment");
 
 module.exports = {
-    getTasks: async (req, res) => {
+    getMyTasks: async (req, res) => {
         try {
-            const tasks = await Task.find({assignedTo: req.user.id});
+            const tasks = await Task.find({assignedTo: req.user.id}).lean();
             res.render("tasks", { tasks: tasks, page: "My Tasks", user: req.user, showSearch: true});
         } catch (err) {
             console.log(err);
         }
     },
-    getTask: async (req, res) =>{
+    getProjectTasks: async (req, res) =>{
         try {
             //the id in params is for the project
             const ProjectId = req.params.id
             const task = await Task.find({projectId: ProjectId}).populate("createdBy").lean();
             
             res.render("singleTask", { task: task, page: "Project Tasks", user: req.user, showSearch: true, id: ProjectId})
+        } catch (err) {
+            console.error(err)
+        }
+    },
+    getSingleTask: async(req, res)=>{
+        try {
+            //need to refactor this, I don't like having three separate get controllers.
+            const task = await Task.findById(req.params.id)
+            const tasks = await Task.find({projectId: task.projectId}).populate("createdBy").lean();
+            const comments = await Comment.find({taskId: req.params.id}).sort({createdAt: "desc"}).lean()
+            res.render("singleTask", { singleTask: task,  task: tasks, page: "Project Tasks", user: req.user, showSearch: true, id: task.projectId, comments: comments})
         } catch (err) {
             console.error(err)
         }

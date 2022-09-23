@@ -22,19 +22,6 @@
     margin-bottom: 15px;
     object-fit: cover;
    }
-   .form-floating:focus-within {
-        z-index: 2;
-    }
-   #floatingNewPassword{
-        margin-bottom: -1px;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-    }
-    #floatingConfirmNewPassword{
-        margin-bottom: 10px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-    }
 </style>
 
 <main>
@@ -52,7 +39,7 @@
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">Company</label>
-                                <input type="text" class="form-control" placeholder="Company" value="Creative Code Inc.">
+                                <input type="text" class="form-control" placeholder="Company" name="company" value="<%= user.personalDetails.company %>">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label  class="form-label">Username</label>
@@ -67,29 +54,22 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label  class="form-label">First Name</label>
-                                <input type="text" class="form-control" placeholder="Company" value="Mike">
+                                <input type="text" class="form-control" placeholder="First Name" name="firstName" value="<%= user.personalDetails.firstName %>">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label  class="form-label">Last Name</label>
-                                <input type="text" class="form-control" placeholder="Last Name" value="Andrew">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12 mb-3">
-                                <label  class="form-label">Address</label>
-                                <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
+                                <input type="text" class="form-control" name="lastName" placeholder="Last Name" value="<%= user.personalDetails.lastName %>">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label class="form-label">City</label>
-                                <input type="text" class="form-control" placeholder="City" value="Mike">
+                                <label class="form-label">Possition</label>
+                                <input type="text" class="form-control" placeholder="Possition" name="possition" value="<%= user.personalDetails.possition %>">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">Country</label>
-                                <input type="text" class="form-control" placeholder="Country" value="Andrew">
+                                <input type="text" class="form-control" placeholder="Country" name="country" value="<%= user.personalDetails.country %>">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="formFile" class="form-label">Profile picture</label>
@@ -100,7 +80,7 @@
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">About Me</label>
-                                <textarea rows="5" class="form-control" placeholder="Here can be your description" value="Mike">add a card as column bellow user card with dropdown to select users(section in for each), but only show it if you are an admin. Need to modify the form to reflect pertinent fields (all) regarding the user model. Need to to use it to fill the presentation card that could be exported?</textarea>
+                                <textarea rows="3" class="form-control" name="aboutMe"><%= user.personalDetails.aboutMe || "you could write something about here!" %> </textarea>
                             </div>
                         </div>
 
@@ -153,19 +133,19 @@
                                 <div class="modal-body mx-4">                                
                                     <div class="input-group mb-3">
                                         <span class="input-group-text" id="basic-addon1"><i class='bx bxl-github'></i></span>
-                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                                        <input type="text" class="form-control">
                                     </div>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text" id="basic-addon2"><i class='bx bxl-twitter' ></i></span>
-                                        <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control">
                                     </div>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text" id="basic-addon3"><i class='bx bxl-linkedin-square' ></i></span>
-                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon3">
+                                        <input type="text" class="form-control">
                                     </div>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text" id="basic-addon4"><i class='bx bxl-twitch' ></i></span>
-                                        <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon4">
+                                        <input type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -187,13 +167,13 @@
                 </div>
                 <div class="content">
                     <div class="text-center imgMargin">
-                        <img class="avatar" src="<%= user.avatar? user.avatar : '/imgs/defaultAvatar.webp' %>" alt="..."/>
+                        <img class="avatar" src="<%= user.avatar || '/imgs/defaultAvatar.webp' %>" alt="..."/>
 
-                        <h4 class="card-title"><%= user.userName %></h4>
-                        <h6 class="card-subtitle mb-2"><%= user.id %> </h6>
+                        <h4 class="card-title"><%= user.personalDetails.firstName || user.userName %></h4>
+                        <h6 class="card-subtitle mb-2"><%= user.personalDetails.possition %> @ <%= user.personalDetails.company %>  </h6>
                     </div>
                     <p class="text-muted text-center fw-light mx-4"> 
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam, amet.
+                        <%= user.personalDetails.aboutMe %> 
                     </p>
                 </div>
                 <div class="card-footer text-center">

@@ -12,6 +12,7 @@ const mainRoutes = require("./routes/main");
 const taskRoutes = require("./routes/tasks");
 const projectRoutes = require("./routes/projects")
 const profileRoutes = require("./routes/profiles")
+const commentRoutes = require("./routes/comments")
 
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
@@ -60,6 +61,7 @@ app.use("/", mainRoutes);
 app.use("/profile", profileRoutes);
 app.use("/project", projectRoutes);
 app.use("/task", taskRoutes);
+app.use("/comment", commentRoutes);
 
 //Server Running
 app.listen(PORT, () => {

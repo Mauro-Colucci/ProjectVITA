@@ -16,8 +16,7 @@
               <table id="myTable" class="table table-hover">
                 <thead class="table-dark">
                   <tr>
-                    <!-- remove the inline css -->
-                    <th style="white-space: nowrap;">Project name</th>
+                    <th scope="col" class="text-nowrap">Project name</th>
                     <th>Description</th>
                     <th>Created By</th>
                     <th>Type</th>
@@ -28,8 +27,7 @@
                   <% tasks.forEach(task => { %>
                     
                   <tr>
-                      <!-- remove the inline css -->
-                      <td><a href="#" class="nav-link" style="white-space: nowrap;"><%= task.project %></a></td>
+                      <td><a href="#" class="text-nowrap text-decoration-none text-reset"><%= task.project %></a></td>
                       <td><%= task.description %></td>
                       <td><%= task.createdBy.userName %></td>
                       <td><%= task.tag %> </td>

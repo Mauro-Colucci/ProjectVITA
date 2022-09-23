@@ -4,8 +4,11 @@ const tasksController = require("../controllers/tasks");
 const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
 //Post Routes - simplified for now
-router.get("/", ensureAuth, tasksController.getTasks);
-router.get("/:id", ensureAuth, tasksController.getTask);
+router.get("/", ensureAuth, tasksController.getMyTasks);
+router.get("/:id", ensureAuth, tasksController.getProjectTasks);
+router.get("/singleTask/:id", ensureAuth, tasksController.getSingleTask);
+
+
 
 router.post("/createTask", tasksController.creatTask);
 
