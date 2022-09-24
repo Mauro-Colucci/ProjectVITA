@@ -6,11 +6,9 @@ bcrypt = require('bcrypt')
 
 module.exports = {
   getProfile: async (req, res) => {
-    let user
     try {
-      user = await User.findById(req.user.id );
-      const users = await User.find().lean()
-      res.render("profile.ejs", { user: user, selection: users, page: "Profile", showSearch: false});
+      const user = await User.findById(req.user.id );
+      res.render("profile.ejs", { user: user, page: "Profile", showSearch: false});
     } catch (err) {
       console.log(err);
     }

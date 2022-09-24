@@ -26,7 +26,7 @@ const ProjectSchema = new mongoose.Schema({
   },
   tasks: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Issue"
+    ref: "Task"
   }]
 }, {timestamps: true});
 

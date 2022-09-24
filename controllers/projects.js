@@ -12,7 +12,8 @@ module.exports = {
       try {
           const projects = await Project.find({user: req.user.id});
           if(req.params.id){
-            project = await Project.findById(req.params.id).populate('user').lean()
+            project = await Project.findById(req.params.id).populate('user tasks').lean()
+            console.log(project)
           }
           res.render("projects", { projects: projects, singleProject: project, page: "My Projects", user: req.user, showSearch: true});
       } catch (err) {

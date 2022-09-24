@@ -4,15 +4,14 @@ const tasksController = require("../controllers/tasks");
 const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
 //Post Routes - simplified for now
-router.get("/", ensureAuth, tasksController.getMyTasks);
-router.get("/:id", ensureAuth, tasksController.getProjectTasks);
+router.get("/:id?", ensureAuth, tasksController.getTasks);
 router.get("/singleTask/:id", ensureAuth, tasksController.getSingleTask);
 
 
 
 router.post("/createTask", tasksController.creatTask);
 
-//router.put('/test',upload.single("file"), tasksController.testPost)
+router.put('/updateTask/:id', tasksController.updateTask)
 
 //router.delete("/deletePost/:id", tasksController.deletePost);
 

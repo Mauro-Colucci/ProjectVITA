@@ -1,5 +1,11 @@
 <%- include('./layout/header.ejs') %> 
 
+<style>
+    .fs-7{
+        font-size: .8rem;
+    }
+</style>
+
 <main>
     <div class="row mt-4">
         <div class="col-md-12">
@@ -7,14 +13,14 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="wrapper">
-                            <h5 class="card-title">My Tasks</h5>
+                            <h5 class="card-title">Tasks</h5>
                         </div>
-                        <!-- modal button to add new projects -->
+                        <!-- modal button to add new tasks -->
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                         + Task
                         </button>
 
-                        <!-- form Modal -->
+                        <!-- add form Modal -->
                         <div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
@@ -25,7 +31,7 @@
                                     <form action="/task/createTask" method="POST">
                                         <input hidden name="project" value="<%= id %>">
                                         <div class="modal-body mx-2">
-                                            <div class="form-floating mb-3">
+                                            <div class="form-floating">
                                                 <input type="text" class="form-control" id="folatingTitle" name="taskName" placeholder="Title">
                                                 <label for="folatingTitle">Title</label>
                                             </div>
@@ -51,14 +57,14 @@
                                                         <option value="low">Low</option>
                                                       </select>
                                                 </div>
-                                                <div class="col-md-4 mb-3">
+                                            <!--     <div class="col-md-4 mb-3">
                                                     <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="status">
                                                         <option selected>Status</option>
                                                         <option value="new">New</option>
                                                         <option value="in progress">In progress</option>
                                                         <option value="closed">Closed</option>
                                                       </select>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -68,7 +74,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- end of form Modal -->
+                        <!-- end of add form Modal -->
                     </div>
                     <div class="table-responsive">
                         <table id="myTable" class="table table-hover">
@@ -80,6 +86,7 @@
                             <th>Type</th>
                             <th>Status</th>
                             <th>Priority</th>
+                            <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -92,7 +99,80 @@
                                 <td><%= ele.tag %> </td>
                                 <td><%= ele.status %> </td>
                                 <td><%= ele.priority %> </td>
+                                <td>
+                                    <!-- modal button edit -->                                   
+                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#editModal<%= ele._id %>"><i class='bx bx-edit-alt text-success'></i></a>
+                                </td>
                             </tr>
+
+                            <!-- form edit Modal -->
+                        <div class="modal fade " id="editModal<%= ele._id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Edit task</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <form action="/task/updateTask/<%= ele._id %>?_method=PUT" method="POST">
+                                        <!-- <input hidden name="project" value="<%= id %>"> -->
+                                        <div class="modal-body mx-2">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="floatingEditTitle" name="taskName" value="<%= ele.taskName %>" placeholder="Title">
+                                                <label for="floatingEditTitle">Title</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <textarea rows="5" class="form-control" style="height: auto;" id="floatingEditDescription" name="description" placeholder="Description"><%= ele.description %></textarea>
+                                                <label for="floatingEditDescription">Description</label>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 mb-3">
+                                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="tag">
+                                                        <option selected><%= ele.tag %></option>
+                                                        <option value="bug">Bug</option>
+                                                        <option value="new feature">New feature</option>
+                                                        <option value="todo">To do</option>
+                                                        <option value="misc">Misc.</option>
+                                                      </select>
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="priority">
+                                                        <option selected><%= ele.priority %></option>
+                                                        <option value="high">High</option>
+                                                        <option value="moderate">Moderate</option>
+                                                        <option value="low">Low</option>
+                                                      </select>
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="status">
+                                                        <option selected><%= ele.status %></option>
+                                                        <option value="new">New</option>
+                                                        <option value="in progress">In progress</option>
+                                                        <option value="closed">Closed</option>
+                                                      </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <select name="assignedTo" class="form-select form-select-sm">
+                                                        <option selected><%= ele.assignedTo?.userName || "Select user" %></option>
+                                                        <% allUsers?.forEach(element => { %>
+                                                        <option value="<%= element._id %>"><%= element.userName %> </option>
+                                                        <% }) %>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <!--   <form action="/?_method=DELETE" method="POST" class="col-1">
+                                                <button class="btn btn-danger bx bx-minus-circle" type="submit"></button>
+                                            </form> -->
+                                            <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Update</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end of form edit Modal -->
 
                             <% }) %>
                         </tbody>
@@ -106,18 +186,60 @@
     <% if (typeof singleTask !== 'undefined') { %>
      
     <div class="row mt-4">
-        <div class="col-md-7">
+        <div class="col-md-8">
           <div class="card">
-            <div class="card-body">
-              <h1><%= singleTask?.taskName %> </h1>
+            <div class="card-header">
+                Task info
             </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 d-flex flex-column">
+                        <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Task Name</span>
+                        <span class="card-text ps-1"><%= singleTask.taskName %> </span>
+                    </div>
+                    <div class="col-md-3 d-flex flex-column">
+                        <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Created by</span>
+                        <span class="card-text ps-1"><%= singleTask.createdBy.userName %> </span>
+                    </div>
+                    <div class="col-md-6 d-flex flex-column">
+                        <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Description</span>
+                        <span class="card-text ps-1"><%= singleTask.description %> </span>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-3 d-flex flex-column">
+                        <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Type</span>
+                        <span class="card-text ps-1 text-capitalize"><%= singleTask.tag %> </span>
+                    </div>
+                    <div class="col-md-3 d-flex flex-column">
+                        <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Priority</span>
+                        <span class="card-text ps-1 text-capitalize"><%= singleTask.priority %> </span>
+                    </div>
+                    <div class="col-md-3 d-flex flex-column">
+                        <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Status</span>
+                        <span class="card-text ps-1 text-capitalize"><%= singleTask.status %> </span>
+                    </div>
+                    <div class="col-md-3 d-flex flex-column">
+                        <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Created on</span>
+                        <span class="card-text ps-1"><%= singleTask.createdAt.toLocaleString() %> </span>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-4 d-flex flex-column">
+                        <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Assigned to</span>
+                        <span class="card-text ps-1"><%= singleTask.assignedTo?.userName || "not yet assigned" %> </span>
+                    </div>
+                </div>
+            </div>
+            
+
           </div>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-4">
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">Comments section here</h5>
-                <form action="/comment/createComment/<%= singleTask?.id %>" method="POST">
+                <form action="/comment/createComment/<%= singleTask?._id %>" method="POST">
                     <div class="input-group mb-3">
                         <textarea class="form-control" placeholder="write a comment..." name="comment" aria-label="comment area" aria-describedby="button-addon2"></textarea>
                         <button class="btn btn-outline-primary" type="submit" id="button-addon2">Post</button>
@@ -133,7 +255,7 @@
                 </form>
               </div>
             </div>
-          </div>
+        </div>
     </div>
 
     <% } %>

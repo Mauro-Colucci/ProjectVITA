@@ -34,6 +34,10 @@ const UserSchema = new mongoose.Schema({
   cloudinaryId: {
     type: String
   },
+  assignedTasks: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Task"
+  }]
 }, {timestamps: true});
 
 // Password hash middleware.

@@ -37,7 +37,8 @@ body{
 .form-signin #floatingUsername,
 .form-signin #floatingLoginInput,
 #floatingNewPassword,
-#folatingTitle{
+#folatingTitle,
+#floatingEditTitle{
     margin-bottom: -1px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
@@ -53,7 +54,8 @@ body{
 .form-signin #floatingConfirmPassword,
 .form-signin #floattingLoginPassword,
 #floatingConfirmNewPassword,
-#floatingDescription{
+#floatingDescription,
+#floatingEditDescription{
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
@@ -70,23 +72,16 @@ body{
 }
 
 .main-content main{
-    padding: 0 24px;
+    padding: 60px 24px;
 }
 
-.main-content .navbar{
-    margin-left: 60px;
-    transition: all .5s ease;
-}
-
-.wrapper.active .main-content .navbar{
-    margin-left: 250px;
-}
-
+.main-content .topNav,
 .main-content .footbar{
     margin-left: 60px;
     transition: all .5s ease;
 }
 
+.wrapper.active .main-content .topNav,
 .wrapper.active .main-content .footbar{
     margin-left: 250px;
 }
@@ -315,8 +310,10 @@ body{
 
 .topNav,
 .footbar{
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     height: 60px;
     background-color: #faf9f6;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -325,11 +322,8 @@ body{
 }
 
 .footbar{
-    position: fixed;
     bottom: 0;
     top: inherit;
-    left: 0;
-    right: 0;
     height: 50px;
 }
 
