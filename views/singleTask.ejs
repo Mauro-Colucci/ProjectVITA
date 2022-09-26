@@ -16,10 +16,12 @@
                             <h5 class="card-title">Tasks</h5>
                         </div>
                         <!-- modal button to add new tasks -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        + Task
-                        </button>
-
+                        <% if (id !== '') { %>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                + Task
+                            </button>
+                        <% } %>
+                   
                         <!-- add form Modal -->
                         <div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
@@ -82,7 +84,7 @@
                             <tr>
                             <th class="text-nowrap">Task name</th>
                             <th>Description</th>
-                            <th>Created By</th>
+                            <th class="text-nowrap">Created By</th>
                             <th>Type</th>
                             <th>Status</th>
                             <th>Priority</th>
@@ -96,12 +98,24 @@
                                 <td><a href="/task/singleTask/<%= ele._id %>"  class="text-nowrap text-decoration-none text-reset"><%= ele.taskName %></a></td>
                                 <td><%= ele.description %></td>
                                 <td><%= ele.createdBy.userName %></td>
-                                <td><%= ele.tag %> </td>
+                                <td class="text-nowrap"><%= ele.tag %> </td>
                                 <td><%= ele.status %> </td>
                                 <td><%= ele.priority %> </td>
                                 <td>
-                                    <!-- modal button edit -->                                   
-                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#editModal<%= ele._id %>"><i class='bx bx-edit-alt text-success'></i></a>
+                                    <% if (ele.isAdmin || user.id == (ele.assignedTo?._id || ele.createdBy._id)) { %>
+                                     
+                                    <div class="d-flex align-items-center">
+                                        <!-- modal button edit -->      
+                                        <a href="#"  data-bs-toggle="modal" data-bs-target="#editModal<%= ele._id %>">
+                                            <i class='bx bx-edit-alt text-success'></i>
+                                        </a>
+                                        <form action="/task/deleteTask/<%= ele._id %>?_method=DELETE" method="POST">
+                                            <button class="btn" type="submit"><i class="bx bx-minus-circle" style="color: tomato;"></i></button>
+                                        </form>
+                                    </div> 
+                                       
+                                    <% } %>
+
                                 </td>
                             </tr>
 
@@ -154,7 +168,7 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <select name="assignedTo" class="form-select form-select-sm">
-                                                        <option selected><%= ele.assignedTo?.userName || "Select user" %></option>
+                                                        <option value="<%= ele.assignedTo?._id %>" selected><%= ele.assignedTo?.userName || "Select user" %></option>
                                                         <% allUsers?.forEach(element => { %>
                                                         <option value="<%= element._id %>"><%= element.userName %> </option>
                                                         <% }) %>
@@ -163,9 +177,6 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                          <!--   <form action="/?_method=DELETE" method="POST" class="col-1">
-                                                <button class="btn btn-danger bx bx-minus-circle" type="submit"></button>
-                                            </form> -->
                                             <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Update</button>
                                         </div>
                                     </form>
@@ -235,26 +246,9 @@
 
           </div>
         </div>
+
         <div class="col-md-4">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Comments section here</h5>
-                <form action="/comment/createComment/<%= singleTask?._id %>" method="POST">
-                    <div class="input-group mb-3">
-                        <textarea class="form-control" placeholder="write a comment..." name="comment" aria-label="comment area" aria-describedby="button-addon2"></textarea>
-                        <button class="btn btn-outline-primary" type="submit" id="button-addon2">Post</button>
-                    </div>
-                    <% comments?.forEach(element => { %>
-                        <div class="card mb-2">
-                            <div class="card-body">
-                                <%= element.comment %> 
-                            </div>
-                        </div>
-                    <% }) %>
-                   
-                </form>
-              </div>
-            </div>
+            <%- include('./partials/_comments.ejs') %>
         </div>
     </div>
 

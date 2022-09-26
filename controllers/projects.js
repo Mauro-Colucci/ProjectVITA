@@ -4,13 +4,14 @@ bcrypt = require('bcrypt')
 
 //will be removed/changed
 const Project = require("../models/Project");
-const User = require("../models/User");
+const Task = require("../models/Task")
+const Comment = require("../models/Comment")
 
 module.exports = {
   getProjects: async (req, res) => {
     let project
       try {
-          const projects = await Project.find({user: req.user.id});
+          const projects = await Project.find({user: req.user.id}).lean();
           if(req.params.id){
             project = await Project.findById(req.params.id).populate('user tasks').lean()
             console.log(project)
@@ -46,7 +47,9 @@ module.exports = {
     try {
       //need to fetch info for the dashboard
       const projects = await Project.find().sort({ createdAt: "asc" }).populate('user').lean();
-      res.render("dashboard.ejs", { projects: projects, user: req.user, page: "Dashboard", showSearch: true });
+      //investigate if I need to add a new field to store the length of the tasks array like:
+      //findByIdAndUpdate(id, {"$push": { "answers": answerId }, "$inc": { "answerLength": 1 } })
+      res.render("dashboard.ejs", { projects, user: req.user, page: "Dashboard", showSearch: true });
     } catch (err) {
       console.log(err);
     }
@@ -63,24 +66,27 @@ module.exports = {
         user: req.user.id,
       });
       console.log("Project has been added!");
-      res.redirect("/dashboard");
+      res.redirect("back");
     } catch (err) {
       console.log(err);
     }
   },
   //deleteProject
   deleteProject: async (req, res) => {
+    const id = req.params.id
     try {
       // Find Project by id
-      let project = await Project.findById({ _id: req.params.id });
+      let project = await Project.findById(id);
       // Delete image from cloudinary
-      await cloudinary.uploader.destroy(project.cloudinaryId);
+      project.cloudinaryId && await cloudinary.uploader.destroy(project.cloudinaryId);
       // Delete Project from db
-      await Project.remove({ _id: req.params.id });
+      await Project.deleteOne({ _id: id });
+      await Task.deleteMany({ projectId: id })
+      await Comment.deleteMany({ projectId: id })
       console.log("Deleted Project");
-      res.redirect("/profile");
+      res.redirect("back");
     } catch (err) {
-      res.redirect("/profile");
+      res.redirect("back");
     }
   },
 };

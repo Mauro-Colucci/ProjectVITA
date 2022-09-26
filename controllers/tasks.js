@@ -8,14 +8,6 @@ const User = require("../models/User");
 const Comment = require("../models/Comment");
 
 module.exports = {
-   /*  getMyTasks: async (req, res) => {
-        try {
-            const tasks = await Task.find({assignedTo: req.user.id}).lean();
-            res.render("tasks", { tasks: tasks, page: "My Tasks", user: req.user, showSearch: true});
-        } catch (err) {
-            console.log(err);
-        }
-    }, */
     getTasks: async (req, res) =>{
         let task
         let ProjectId = ""
@@ -27,11 +19,9 @@ module.exports = {
                 task = await Task.find({projectId: ProjectId}).populate("createdBy assignedTo").lean();
                 page = "Project Tasks"
             } else {
-                task = await Task.find({assignedTo: req.user.id}).lean();
+                //$ne = not equal to
+                task = await Task.find({assignedTo: req.user.id, status: {$ne:'closed'}}).populate("createdBy assignedTo").lean();
             }
-
-
-
             const allUsers = await User.find().lean()
             res.render("singleTask", { task, page, user: req.user, showSearch: true, id: ProjectId, allUsers})
         } catch (err) {
@@ -40,10 +30,9 @@ module.exports = {
     },
     getSingleTask: async(req, res)=>{
         try {
-            //need to refactor this, I don't like having three separate get controllers.
             const task = await Task.findById(req.params.id).populate("createdBy assignedTo").lean();
             const tasks = await Task.find({projectId: task.projectId}).populate("createdBy assignedTo").lean();
-            const comments = await Comment.find({taskId: req.params.id}).sort({createdAt: "desc"}).lean()
+            const comments = await Comment.find({taskId: req.params.id}).sort({createdAt: "desc"}).populate("createdBy").lean()
             const allUsers = await User.find().lean()
             res.render("singleTask", { singleTask: task,  task: tasks, page: "Project Tasks", user: req.user, showSearch: true, id: task.projectId, comments, allUsers})
         } catch (err) {
@@ -53,7 +42,6 @@ module.exports = {
     creatTask: async (req, res) => {
         try {
             //const result = await cloudinary.uploader.upload(req.file.path);
-            //need to add a dropdown with all users in the modal to add them to assignedTo
             const projectId = req.body.project
             const task = await Task.create({
             taskName: req.body.taskName,
@@ -85,25 +73,28 @@ module.exports = {
           }, {
             new: true
           });
-          //need to $pull the task id from the previously assigned user. find on user with task id as argument and if match do a $pull should work
-          //task.assignedTo && await User.findByIdAndUpdate(task.assignedTo, { $push: { assignedTasks: task._id } })
-          res.redirect(`/task/${task.projectId}`)
+          //redirects to the page the request originated from
+          res.redirect("back")
         } catch (err) {
           console.log(err);
         }
       },
     deleteTask: async (req, res) => {
+        const id = req.params.id
         try {
             // Find Project by id
-            let project = await Project.findById({ _id: req.params.id });
+            let task = await Task.findByIdAndDelete(id);
             // Delete image from cloudinary
-            await cloudinary.uploader.destroy(project.cloudinaryId);
-            // Delete Project from db
-            await Project.remove({ _id: req.params.id });
+            //await cloudinary.uploader.destroy(task.cloudinaryId);;
+            //delete all comments related to the task id
+            await Comment.deleteMany({taskId: id})
+            await Project.findByIdAndUpdate(task.projectId, { $pull: { tasks: id } })
+            //check the requested header referer (url) and if selects redirect according to the base url.
+            const redirect = req.headers.referer.split('/').includes('singleTask' && id)? `/task/${task.projectId}` : "back"
             console.log("Deleted Project");
-            res.redirect("/profile");
+            res.redirect(redirect);
         } catch (err) {
-            res.redirect("/profile");
+            res.redirect("/");
         }
     },
 };

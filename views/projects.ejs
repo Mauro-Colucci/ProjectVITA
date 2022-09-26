@@ -11,7 +11,7 @@
               <div class="wrapper">
                 <h5 class="card-title">My Projects</h5>
               </div>
-
+              <%- include('partials/_formModal.ejs', {text: "+"}) %>
             </div>
             <div class="table-responsive">
               <table id="myTable" class="table table-hover">
@@ -24,8 +24,15 @@
                   <% projects.forEach(project => { %>
                    
                   <tr>
-                      <td class="d-flex justify-content-between">
-                        <a href="/project/<%= project.id %> " class="text-nowrap text-decoration-none text-reset"><%= project.projectName %></a>
+                      <td>
+                        <div class="d-flex align-items-center justify-content-between">
+                          <a href="/project/<%= project._id %>" class="text-nowrap text-decoration-none text-reset"><%= project.projectName %></a>
+
+                          <form action="/project/deleteProject/<%= project._id %>?_method=DELETE" method="POST">
+                            <button class="btn p-0" type="submit"><i class="bx bx-minus-circle" style="color: tomato;"></i></button>
+                          </form>
+                        </div>
+                    
                       </td>
   
                   </tr>
@@ -127,7 +134,7 @@
                       <td><a href="/task/singleTask/<%= task._id %>" class="text-nowrap text-decoration-none text-reset"><%= task.taskName %></a></td>
                       <td><%= task.description %></td>
                       <td><%= task.priority %></td>
-                      <td><%= task.tag %> </td>
+                      <td class="text-nowrap"><%= task.tag %> </td>
                       <td><%= task.status %> </td>
                   </tr>
   

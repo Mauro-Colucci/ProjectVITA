@@ -6,15 +6,25 @@
     <div class="col-md-3">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Priority</h5>
-          <p class="card-text">card text.</p>
+          <h5 class="card-title">Tasks.</h5>
+          <p class="card-text">Ammount per project.</p>
         </div>
         <ul class="list-group list-group-flush">
-          <!-- check other bootstrap classes for anchors -->
-          <li class="list-group-item"><a href="#" class="nav-link">Add card for latest tasks</a></li>
-          <li class="list-group-item">Either add a card for projects with tasks badge or add badges to the project table</li>
           <li class="list-group-item">notification badge in navbar for comments in assigned tasks.</li>
           <li class="list-group-item">Comments on projects, bookmarks/saved projects, likes on projects</li>
+          <% projects.forEach(project => { %>
+           <li class="list-group-item">
+            <div class="d-grid gap-2 col-8 mx-auto my-1">
+              <a href="/task/<%= project._id %> " class="btn btn-light position-relative">
+                <%= project.projectName %> 
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
+                  <%= project.tasks.length %>
+                  <span class="visually-hidden">unread messages</span>
+                </span>
+              </a>
+            </div>
+            </li>
+          <% }) %>
         </ul>
       </div>
     </div>
@@ -26,43 +36,9 @@
             <div class="wrapper">
               <h5 class="card-title">OpenProjects</h5>
               <h6 class="card-subtitle mb-2 text-muted">See all active projects</h6>
-            </div>
+            </div>       
 
-            <!-- modal button to add new projects -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-              + Project
-            </button>
-
-              <!-- form Modal -->
-              <div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="staticBackdropLabel">Add new project</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-
-                  <form action="/project/createProject" method="POST">
-
-                    <div class="modal-body mx-4">
-                      <div class="form-floating">
-                        <input type="text" class="form-control" id="folatingTitle" name="projectName" placeholder="Project title">
-                        <label for="folatingTitle">Project title</label>
-                      </div>
-                      <div class="form-floating">
-                        <textarea rows="5" class="form-control textArea" id="floatingDescription" name="description" placeholder="Project description"></textarea>
-                        <label for="floatingDescription">Project description</label>
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Create</button>
-                    </div>
-
-                  </form>
-              </div>
-              </div>
-            </div>
-            <!-- end of form Modal -->
+            <%- include('partials/_formModal.ejs', {text: "+ Project"}) %> 
 
           </div>
           <div class="table-responsive">

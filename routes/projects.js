@@ -10,6 +10,6 @@ router.post("/createProject", projectsController.createProject);
 
 router.put('/editProject/:id',upload.single("file"), projectsController.updateProject)
 
-//router.delete("/deletePost/:id", projectsController.deletePost);
+router.delete("/deleteProject/:id", projectsController.deleteProject);
 
 module.exports = router;

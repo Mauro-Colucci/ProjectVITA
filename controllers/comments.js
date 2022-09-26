@@ -1,15 +1,18 @@
 const Comment = require("../models/Comment");
+const Project = require("../models/Project");
 
 module.exports = {
   createComment: async (req, res) => {
     try {
+      const project = await Project.findOne({tasks: req.params.id}).lean()
       await Comment.create({
         comment: req.body.comment,
         taskId: req.params.id,
-        createdBy: req.user.id
-      });      
+        createdBy: req.user.id,
+        projectId: project._id
+      });     
       console.log("Comment has been added!");
-      res.redirect(`/task/singleTask/${req.params.id}`);
+      res.redirect("back");
     } catch (err) {
       console.log(err);
     }
@@ -26,18 +29,24 @@ module.exports = {
       } else {
         await commentDoc.updateOne({ $pull: { likes: userId } });
       }
-      //sends the postID related to the comment, to go back to the same post page we were
-      res.redirect(`/post/${commentDoc.post}`);
+      res.redirect("back");
     } catch (err) {
       console.log(err);
     }
   },
+  editComment: async (req, res) =>{
+    try {
+      await Comment.findByIdAndUpdate(req.params.id, {comment: req.body.editComment, edited: true})
+      res.redirect("back")
+    } catch (err) {
+      console.error(err)
+    }
+  },
   deleteComment: async (req, res) => {
     try {
-      const commentDoc = await Comment.findByIdAndDelete(req.params.id);
+      await Comment.findByIdAndDelete(req.params.id);
       console.log("Deleted Comment");
-      //commentDoc.post has the postID (explained in likeComment)
-      res.redirect(`/post/${commentDoc.post}`);
+      res.redirect("back");
     } catch (err) {
       console.error(err)
     }

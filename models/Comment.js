@@ -6,9 +6,16 @@ const CommentSchema = new mongoose.Schema({
     required: true,
   },
   likes: {
-    //we could set the type to an array of objectId with ref to user, we could then populate in the API and show who liked the post?
-    type: [String],
+    type: Array,
     default: []
+  },
+  edited: {
+    type: Boolean,
+    default: false
+  },
+  projectId :{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Project"
   },
   taskId: {
     type: mongoose.Schema.Types.ObjectId,
