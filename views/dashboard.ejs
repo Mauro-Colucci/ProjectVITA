@@ -11,7 +11,7 @@
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">notification badge in navbar for comments in assigned tasks.</li>
-          <li class="list-group-item">Comments on projects, bookmarks/saved projects, likes on projects</li>
+          <li class="list-group-item">Bookmarks/saved projects, likes on projects</li>
           <% projects.forEach(project => { %>
            <li class="list-group-item">
             <div class="d-grid gap-2 col-8 mx-auto my-1">
@@ -67,6 +67,24 @@
         
       </div>
     </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Pie chart</h5>
+          <canvas id="myChart">
+        </div>
+      </div>
+    </canvas></div>
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Line chart</h5>
+          <canvas id="lineChart">
+        </div>
+      </div>
+    </canvas></div>
   </div>
 </main>
 
