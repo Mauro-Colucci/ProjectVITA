@@ -6,9 +6,15 @@ bcrypt = require('bcrypt')
 
 module.exports = {
   getProfile: async (req, res) => {
+    let user
     try {
-      const user = await User.findById(req.user.id );
-      res.render("profile.ejs", { user: user, page: "Profile", showSearch: false});
+      if (req.params.id){
+        user = await User.findById(req.params.id).lean()
+      } else {
+        user = await User.findById(req.user.id).lean();
+      }
+      //sending req.user.id, since I named my variable user and that's the same name passport uses, so I was having issues comparing logged user to req.params.id
+      res.render("profile.ejs", { user, page: "Profile", showSearch: false, loggedUser: req.user.id});
     } catch (err) {
       console.log(err);
     }

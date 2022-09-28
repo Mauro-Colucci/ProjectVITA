@@ -102,7 +102,7 @@
                                 <td><%= ele.status %> </td>
                                 <td><%= ele.priority %> </td>
                                 <td>
-                                    <% if (ele.isAdmin || user.id == (ele.assignedTo?._id || ele.createdBy._id)) { %>
+                                    <% if (userIsAdmin || user.id == (ele.assignedTo?._id || ele.createdBy._id)) { %>
                                      
                                     <div class="d-flex align-items-center">
                                         <!-- modal button edit -->      

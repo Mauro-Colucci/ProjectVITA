@@ -23,7 +23,8 @@ module.exports = {
                 task = await Task.find({assignedTo: req.user.id, status: {$ne:'closed'}}).populate("createdBy assignedTo").lean();
             }
             const allUsers = await User.find().lean()
-            res.render("singleTask", { task, page, user: req.user, showSearch: true, id: ProjectId, allUsers})
+            const userIsAdmin = await User.findById(req.user.id)
+            res.render("singleTask", { task, page, user: req.user,userIsAdmin , showSearch: true, id: ProjectId, allUsers})
         } catch (err) {
             console.error(err)
         }
@@ -73,6 +74,10 @@ module.exports = {
           }, {
             new: true
           });
+          await User.findOneAndUpdate({assignedTasks: task._id}, {$pull: {assignedTasks: task._id}})
+          await User.findByIdAndUpdate(req.body.assignedTo,{
+            $addToSet:{assignedTasks: task._id}
+          })
           //redirects to the page the request originated from
           res.redirect("back")
         } catch (err) {

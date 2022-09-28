@@ -31,6 +31,8 @@
         <% }) %> 
     <% } %>
     <div class="row mt-4">
+        <% if (loggedUser == user._id) { %>
+         
         <div class="col-md-8">
             <div class="card">
                 <h5 class="card-header">Edit Profile</h5>
@@ -39,7 +41,7 @@
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">Company</label>
-                                <input type="text" class="form-control" placeholder="Company" name="company" value="<%= user.personalDetails.company %>">
+                                <input type="text" class="form-control" placeholder="Company" name="company" value="<%= user.personalDetails?.company %>">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label  class="form-label">Username</label>
@@ -54,22 +56,22 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label  class="form-label">First Name</label>
-                                <input type="text" class="form-control" placeholder="First Name" name="firstName" value="<%= user.personalDetails.firstName %>">
+                                <input type="text" class="form-control" placeholder="First Name" name="firstName" value="<%= user.personalDetails?.firstName %>">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label  class="form-label">Last Name</label>
-                                <input type="text" class="form-control" name="lastName" placeholder="Last Name" value="<%= user.personalDetails.lastName %>">
+                                <input type="text" class="form-control" name="lastName" placeholder="Last Name" value="<%= user.personalDetails?.lastName %>">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">Possition</label>
-                                <input type="text" class="form-control" placeholder="Possition" name="possition" value="<%= user.personalDetails.possition %>">
+                                <input type="text" class="form-control" placeholder="Possition" name="possition" value="<%= user.personalDetails?.possition %>">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">Country</label>
-                                <input type="text" class="form-control" placeholder="Country" name="country" value="<%= user.personalDetails.country %>">
+                                <input type="text" class="form-control" placeholder="Country" name="country" value="<%= user.personalDetails?.country %>">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="formFile" class="form-label">Profile picture</label>
@@ -80,7 +82,7 @@
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">About Me</label>
-                                <textarea rows="3" class="form-control" name="aboutMe"><%= user.personalDetails.aboutMe || "you could write something about here!" %> </textarea>
+                                <textarea rows="3" class="form-control" name="aboutMe"><%= user.personalDetails?.aboutMe || "you could write something about here!" %> </textarea>
                             </div>
                         </div>
 
@@ -160,7 +162,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        
+        <% } %>
+
+        <div class="col-md-4 mx-auto">
             <div class="card">
                 <div class="image">
                     <img src="/imgs/photo-1541661538396-53ba2d051eed.avif" alt="..."/>
@@ -169,11 +174,11 @@
                     <div class="text-center imgMargin">
                         <img class="avatar" src="<%= user.avatar || '/imgs/defaultAvatar.webp' %>" alt="..."/>
 
-                        <h4 class="card-title"><%= user.personalDetails.firstName || user.userName %></h4>
-                        <h6 class="card-subtitle mb-2"><%= user.personalDetails.possition %> @ <%= user.personalDetails.company %>  </h6>
+                        <h4 class="card-title"><%= user.personalDetails?.firstName || user.userName %></h4>
+                        <h6 class="card-subtitle mb-2"><%= user.personalDetails?.possition %> @ <%= user.personalDetails?.company %>  </h6>
                     </div>
                     <p class="text-muted text-center fw-light mx-4"> 
-                        <%= user.personalDetails.aboutMe %> 
+                        <%= user.personalDetails?.aboutMe %> 
                     </p>
                 </div>
                 <div class="card-footer text-center">

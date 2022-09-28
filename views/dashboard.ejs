@@ -56,7 +56,7 @@
                 <tr>
                     <td><a href="/task/<%= project._id %> " class="text-nowrap text-decoration-none text-reset"><%= project.projectName %></a></td>
                     <td><%= project.description %></td>
-                    <td><%= project.user.userName %> </td>
+                    <td><a class="text-nowrap text-decoration-none text-reset" href="/profile/<%= project.user._id %>"><%= project.user.userName %></a></td>
                 </tr>
 
                 <% }) %>
