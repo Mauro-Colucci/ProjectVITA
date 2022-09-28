@@ -35,7 +35,8 @@ module.exports = {
             const tasks = await Task.find({projectId: task.projectId}).populate("createdBy assignedTo").lean();
             const comments = await Comment.find({taskId: req.params.id}).sort({createdAt: "desc"}).populate("createdBy").lean()
             const allUsers = await User.find().lean()
-            res.render("singleTask", { singleTask: task,  task: tasks, page: "Project Tasks", user: req.user, showSearch: true, id: task.projectId, comments, allUsers})
+            const userIsAdmin = await User.findById(req.user.id)
+            res.render("singleTask", { singleTask: task, userIsAdmin: userIsAdmin.isAdmin ,  task: tasks, page: "Project Tasks", user: req.user, showSearch: true, id: task.projectId, comments, allUsers})
         } catch (err) {
             console.error(err)
         }

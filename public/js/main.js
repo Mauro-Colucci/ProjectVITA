@@ -44,14 +44,15 @@ if (ctx !== null && line !== null){
 
             myChart.data.labels = projectNames
             myChart.data.datasets[0].data = numberOfTasks
+            myChart.update()
 
             const userNames = data.user.map(user => user.userName)
             const tasksPerUser = data.user.map(user => user.assignedTasks.length)
 
             lineChart.data.labels = userNames
             lineChart.data.datasets[0].data = tasksPerUser
+            lineChart.update()
             
-
         } catch (err) {
             console.error(err)
         } 
@@ -64,7 +65,6 @@ if (ctx !== null && line !== null){
         data: {
             labels: [],
             datasets: [{
-                label: '# of Votes',
                 data: [],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',

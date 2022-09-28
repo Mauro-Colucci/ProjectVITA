@@ -10,12 +10,14 @@ const Comment = require("../models/Comment")
 module.exports = {
   getProjects: async (req, res) => {
     let project
+    let projectsPage = true
       try {
           const projects = await Project.find({user: req.user.id}).lean();
           if(req.params.id){
             project = await Project.findById(req.params.id).populate('user tasks').lean()
+            projectsPage = false
           }
-          res.render("projects", { projects: projects, singleProject: project, page: "My Projects", user: req.user, showSearch: true});
+          res.render("projects", { projects: projects, projectsPage, singleProject: project, page: "My Projects", user: req.user, showSearch: true});
       } catch (err) {
           console.log(err);
       }

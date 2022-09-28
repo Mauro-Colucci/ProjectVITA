@@ -54,7 +54,7 @@
                 <% projects.forEach(project => { %>
                   
                 <tr>
-                    <td><a href="/task/<%= project._id %> " class="text-nowrap text-decoration-none text-reset"><%= project.projectName %></a></td>
+                    <td><a href="/project/<%= project._id %> " class="text-nowrap text-decoration-none text-reset"><%= project.projectName %></a></td>
                     <td><%= project.description %></td>
                     <td><a class="text-nowrap text-decoration-none text-reset" href="/profile/<%= project.user._id %>"><%= project.user.userName %></a></td>
                 </tr>
@@ -72,7 +72,7 @@
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Pie chart</h5>
+          <h5 class="card-title">Tasks per project</h5>
           <canvas id="myChart">
         </div>
       </div>
