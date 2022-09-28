@@ -15,7 +15,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-    
+   
         <script>
             $(document).ready(function () {
                 const table = $('#myTable').DataTable({
@@ -34,6 +34,18 @@
                     dom: 'rt<"d-flex flex-row-reverse justify-content-between mt-4"ip>'
                   
                 });
+
+                const smallTable = $('#mySmallTable').DataTable({
+                    pageLength: 5,
+                    language: {
+                        search: '', searchPlaceholder: "Search...",
+                        paginate: {
+                            next: "<i class='bx bx-chevrons-right'></i>",
+                            previous: "<i class='bx bx-chevrons-left'></i>"
+                        }
+                    },
+                    dom: 'rt<"d-flex flex-wrap gap-2 flex-row-reverse justify-content-center justify-content-xl-between mt-4"fp>'
+                })
                 
                 $('#searchInput').on( 'keyup', function () {
                     table.search( this.value ).draw();

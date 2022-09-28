@@ -422,6 +422,12 @@ body{
 .page-link:focus{
     box-shadow: none;
 }
+
+div.dataTables_wrapper div.dataTables_filter input{
+    width: 100%;
+    max-width: 176px;
+    margin-left: 0;
+}
 /*dataTable end*/
 
 /* comments */
