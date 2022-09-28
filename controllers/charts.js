@@ -10,7 +10,8 @@ module.exports = {
     let user, task, project, comment
     try {
       user = await User.find();
-      task = await Task.find();
+      //while this sends the correct info: all tasks except the ones that are closed, I'm using user and project info to trace graphs, need to review this
+      task = await Task.find({ status: {$ne: "closed"} });
       project = await Project.find();
       comment = await Comment.find();
       if (req.params.id){

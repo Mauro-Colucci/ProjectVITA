@@ -14,7 +14,6 @@ module.exports = {
           const projects = await Project.find({user: req.user.id}).lean();
           if(req.params.id){
             project = await Project.findById(req.params.id).populate('user tasks').lean()
-            console.log(project)
           }
           res.render("projects", { projects: projects, singleProject: project, page: "My Projects", user: req.user, showSearch: true});
       } catch (err) {
@@ -46,7 +45,7 @@ module.exports = {
   getFeed: async (req, res) => {
     try {
       //need to fetch info for the dashboard
-      const projects = await Project.find().sort({ createdAt: "asc" }).populate('user').lean();
+      const projects = await Project.find({publish: {$ne: false}}).sort({ createdAt: "asc" }).populate('user').lean();
       //investigate if I need to add a new field to store the length of the tasks array like:
       //findByIdAndUpdate(id, {"$push": { "answers": answerId }, "$inc": { "answerLength": 1 } })
       res.render("dashboard.ejs", { projects, user: req.user, page: "Dashboard", showSearch: true });

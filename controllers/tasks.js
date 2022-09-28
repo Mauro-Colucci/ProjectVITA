@@ -24,7 +24,7 @@ module.exports = {
             }
             const allUsers = await User.find().lean()
             const userIsAdmin = await User.findById(req.user.id)
-            res.render("singleTask", { task, page, user: req.user,userIsAdmin , showSearch: true, id: ProjectId, allUsers})
+            res.render("singleTask", { task, page, user: req.user,userIsAdmin: userIsAdmin.isAdmin , showSearch: true, id: ProjectId, allUsers})
         } catch (err) {
             console.error(err)
         }
@@ -94,6 +94,8 @@ module.exports = {
             //delete all comments related to the task id
             await Comment.deleteMany({taskId: id})
             await Project.findByIdAndUpdate(task.projectId, { $pull: { tasks: id } })
+            await User.findOneAndUpdate({assignedTasks: id}, {$pull: {assignedTasks: id}})
+
             //check the requested header referer (url) and if selects redirect according to the base url.
             const redirect = req.headers.referer.split('/').includes('singleTask' && id)? `/task/${task.projectId}` : "back"
             console.log("Deleted Project");
