@@ -23,6 +23,12 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  socials:{
+    github: {type: String},
+    twitter: {type: String},
+    linkedIn: {type: String},
+    twitch: {type: String},
+  },
   personalDetails:{
     company: {type: String},
     possition: {type: String},

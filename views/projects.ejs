@@ -9,107 +9,22 @@
       <div class="col-md-3">
 
         <% if (projectsPage || user.id == singleProject?.user._id) { %>
-        
-              
-        <div class="card mb-4">
-          <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="wrapper">
-                <h5 class="card-title">My Projects</h5>
-              </div>
-              <%- include('partials/_formModal.ejs', {text: "+"}) %>
-            </div>
-            <div class="table-responsive">
-              <table id="myTable" class="table table-hover">
-                <thead class="table-dark">
-                  <tr>
-                    <th class="text-nowrap">Project name</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% projects.forEach(project => { %>
-                   
-                  <tr>
-                      <td>
-                        <div class="d-flex align-items-center justify-content-between">
-                          <a href="/project/<%= project._id %>" class="text-nowrap text-decoration-none text-reset"><%= project.projectName %></a>
-
-                          <form action="/project/deleteProject/<%= project._id %>?_method=DELETE" method="POST">
-                            <button class="btn p-0" type="submit"><i class="bx bx-minus-circle" style="color: tomato;"></i></button>
-                          </form>
-                        </div>
-                    
-                      </td>
-  
-                  </tr>
-
-                  <% }) %>
-                </tbody>
-              </table>
-            </div>
-          </div>
-         
-        </div>
-
+          <%- include('./partials/_myProjectsTable.ejs') %>             
         <% } %>
 
 
         <% if (typeof singleProject !== 'undefined') { %>
-
-        <div class="card overflow-hidden mb-4">
-            <img src= <%= singleProject?.image || "https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/styles/950/public/media/image/2019/05/rick-morty-temporada-4-llegara-noviembre.jpg?itok=6Bguw2Cu" %> alt="">
-            <div class="card-footer">
-              <%= singleProject.projectName %>
-            </div>
-        </div>
+          <%- include('./partials/_projectImage.ejs') %> 
+     
       </div>
 
       <div class="col-md-9">
-        <div class="card">
-           
-        <h5 class="card-header"><%= user.id == singleProject?.user._id? "Selected project" : singleProject.projectName %> </h5>
-          <div class="card-body">
-            <form action="/project/editProject/<%= singleProject._id %>?_method=PUT" enctype="multipart/form-data" method="POST">
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Project name</label>
-                        <input type="text" class="form-control" name="projectName" value="<%= singleProject.projectName %>" >
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label  class="form-label">Username</label>
-                        <input type="text" class="form-control" name="Username" value="<%= singleProject.user.userName %> " disabled>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" value="<%= singleProject.user.email %>" disabled>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label for="formFile" class="form-label">Profile picture</label>
-                        <input class="form-control" type="file" name="file" id="formFile">
-                    </div>
-
-                    <div class="col-md-4 align-self-center">
-                      <label class="form-check-label me-2" for="exampleCheck1" >Make your project public?</label>
-                      <input type="checkbox" class="form-check-input" <%= singleProject.publish? "checked": "" %>  id="exampleCheck1" name="publish">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12 mb-3 ">
-                        <label class="form-label">Project description</label>
-                        <textarea rows="5" class="form-control" name="description"><%= singleProject.description %> </textarea>
-                    </div>
-                </div>
-
-
-                <button type="submit" class="btn btn-success">Update Profile</button>
-
-            </form>
-        </div>
-        </div>
+        <% if (projectsPage || user.id == singleProject?.user._id) { %>
+          <%- include('./partials/_projectsEditForm.ejs') %> 
+        <% } else { %>
+          <%- include('./partials/_projectsStaticForm.ejs') %> 
+        <% } %>
+        
       </div>
 
     </div>

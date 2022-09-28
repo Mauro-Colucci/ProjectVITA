@@ -24,6 +24,12 @@ const ProjectSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  sourceCode: {
+    type: String
+  },
+  liveDemo: {
+    type: String
+  },
   tasks: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Task"

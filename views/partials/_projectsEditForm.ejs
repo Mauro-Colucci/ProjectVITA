@@ -1,0 +1,86 @@
+<div class="card">
+           
+    <h5 class="card-header">Selected project</h5>
+      <div class="card-body">
+        <form action="/project/editProject/<%= singleProject._id %>?_method=PUT" enctype="multipart/form-data" method="POST">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Project name</label>
+                    <input type="text" class="form-control" name="projectName" value="<%= singleProject.projectName %>" >
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label  class="form-label">Username</label>
+                    <input type="text" class="form-control" name="Username" value="<%= singleProject.user.userName %> " disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="exampleFormControlInput1" value="<%= singleProject.user.email %>" disabled>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="formFile" class="form-label">Profile picture</label>
+                    <input class="form-control" type="file" name="file" id="formFile">
+                </div>
+
+                <div class="col-md-4 align-self-center mb-3 mb-md-0">
+                  <label class="form-check-label me-2" for="exampleCheck1" >Make your project public?</label>
+                  <input type="checkbox" class="form-check-input" <%= singleProject.publish? "checked": "" %>  id="exampleCheck1" name="publish">
+                </div>
+
+                <div class="col-md-4 align-self-center text-center mb-3 mb-md-0">
+                    <div class="btn-group">
+                        <% if (singleProject.sourceCode != null) { %>
+                            <a href="<%= singleProject.sourceCode %>" target="_blank" class="btn btn-outline-dark btn-lg"><i class='bx bxl-github'></i></a>
+                        <% } %>
+                        <% if (singleProject.liveDemo != null) { %>
+                            <a href="<%= singleProject.liveDemo %>" target="_blank" class="btn btn-outline-dark btn-lg"><i class='bx bxs-invader'></i></a>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 mb-3 ">
+                    <label class="form-label">Project description</label>
+                    <textarea rows="5" class="form-control" name="description"><%= singleProject.description %> </textarea>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                <button type="submit" class="btn btn-success">Update Profile</button>
+                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#socialsModal">Links</button>
+            </div>
+           
+
+
+             <!-- links Modal -->
+             <div class="modal fade " id="socialsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="socialsModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="socialsModalLabel">Add source code and live demo links</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body mx-4">                                
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class='bx bxl-github'></i></span>
+                            <input type="text" class="form-control" placeholder="Add your source code link here..." name="sourceCode">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class='bx bxs-invader'></i></span>
+                            <input type="text" class="form-control" placeholder="Add your site/app link here..." name="liveDemo">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Accept</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <!-- end of links Modal -->
+
+        </form>
+    </div>
+</div>

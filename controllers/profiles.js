@@ -61,6 +61,12 @@ module.exports = {
           lastName: req.body.lastName,
           country: req.body.country,
           aboutMe: req.body.aboutMe
+        },
+        socials: {
+          github: req.body.github,
+          twitter: req.body.twitter,
+          linkedIn: req.body.linkedIn,
+          twitch: req.body.twitch
         }
       });
       res.redirect("/profile");

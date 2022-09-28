@@ -32,12 +32,15 @@ module.exports = {
         project.cloudinaryId && await cloudinary.uploader.destroy(project.cloudinaryId);
         result = await cloudinary.uploader.upload(req.file.path);
       }
+      console.log(req.body)
       await project.updateOne({
         image: result?.secure_url,
         cloudinaryId: result?.public_id,
         description: req.body.description,
         publish: req.body.publish? true: false,
-        projectName: req.body.projectName
+        projectName: req.body.projectName,
+        liveDemo: req.body.liveDemo,
+        sourceCode: req.body.sourceCode
       });
       res.redirect(`/project/${project.id}`);
     } catch (err) {
