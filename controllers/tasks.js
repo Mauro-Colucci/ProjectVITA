@@ -16,7 +16,7 @@ module.exports = {
             //the id in params is for the project
             if (req.params.id){
                 ProjectId = req.params.id
-                task = await Task.find({projectId: ProjectId}).populate("createdBy assignedTo").lean();
+                task = await Task.find({projectId: ProjectId}).sort({createdAt: "desc"}).populate("createdBy assignedTo").lean();
                 page = "Project Tasks"
             } else {
                 //$ne = not equal to

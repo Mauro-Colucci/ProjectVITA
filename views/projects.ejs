@@ -1,5 +1,4 @@
-<%- include('./layout/header.ejs') %> 
-
+<%- include('./layout/header.ejs') %>             
 
 <main>
     <div class="row mt-4">
@@ -57,7 +56,9 @@
                   <tr>
                       <td><a href="/task/singleTask/<%= task._id %>" class="text-nowrap text-decoration-none text-reset"><%= task.taskName %></a></td>
                       <td><%= task.description %></td>
-                      <td><%= task.priority %></td>
+                      
+                      <%- include('./partials/_priorityInput.ejs',{input: task.priority}) %> 
+                      
                       <td class="text-nowrap"><%= task.tag %> </td>
                       <td><%= task.status %> </td>
                   </tr>

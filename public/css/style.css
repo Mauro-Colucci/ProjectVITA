@@ -430,6 +430,29 @@ div.dataTables_wrapper div.dataTables_filter input{
 }
 /*dataTable end*/
 
+/*profile*/
+.card .image{
+    height: 220px;
+    overflow: hidden;
+    border-radius: 4px 4px 0 0;
+    width: 100%;
+}
+.card .image img{
+    width: 100%;
+}
+.imgMargin{
+    margin-top: -110px;
+}
+.avatar{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 5px solid #ffffff;
+    margin-bottom: 15px;
+    object-fit: cover;
+}
+/*profile end*/
+
 /* comments */
 .comment {
     padding: .5rem;

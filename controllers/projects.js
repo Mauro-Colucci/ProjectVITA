@@ -11,13 +11,15 @@ module.exports = {
   getProjects: async (req, res) => {
     let project
     let projectsPage = true
+    let page = "My Projects"
       try {
           const projects = await Project.find({user: req.user.id}).lean();
           if(req.params.id){
             project = await Project.findById(req.params.id).populate('user tasks').lean()
             projectsPage = false
+            if(project.user._id != req.user.id) page = "Public Projects"
           }
-          res.render("projects", { projects: projects, projectsPage, singleProject: project, page: "My Projects", user: req.user, showSearch: true});
+          res.render("projects", { projects: projects, projectsPage, singleProject: project, page, user: req.user, showSearch: true});
       } catch (err) {
           console.log(err);
       }

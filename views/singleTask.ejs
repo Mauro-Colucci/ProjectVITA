@@ -82,30 +82,49 @@
                         <table id="myTable" class="table table-hover">
                         <thead class="table-dark">
                             <tr>
+                            <th>ID</th>
                             <th class="text-nowrap">Task name</th>
                             <th>Description</th>
                             <th class="text-nowrap">Created By</th>
+                            <th class="text-nowrap">Assigned to</th>
                             <th>Type</th>
-                            <th>Status</th>
                             <th>Priority</th>
+                            <th>Status</th>
                             <th></th>
                             </tr>
                         </thead>
+                        <style>
+                            .tableLink:hover{
+                                color: transparent;
+                                background: #4b4b4b;
+                                -webkit-background-clip: text;
+                                -moz-background-clip: text;
+                                background-clip: text;
+                                text-shadow: 0px 3px 3px rgba(255,255,255,0.6);
+                                scale: 1.01;
+                                cursor: pointer;
+                                transition: all .4s ease;
+                            }
+                        </style>
                         <tbody>
-                            <% task?.forEach(ele => { %>
+                            <% task?.forEach((ele,index) => { %>
                             
                             <tr>
+                                <td><%= index + 1 %> </td>
                                 <td><a href="/task/singleTask/<%= ele._id %>"  class="text-nowrap text-decoration-none text-reset"><%= ele.taskName %></a></td>
                                 <td><%= ele.description %></td>
-                                <td><%= ele.createdBy.userName %></td>
+                                <td><div class="tableLink"><%= ele.createdBy.userName %></div></td>
+                                <td><%= ele.assignedTo?.userName %></td>
                                 <td class="text-nowrap"><%= ele.tag %> </td>
-                                <td><%= ele.status %> </td>
-                                <td><%= ele.priority %> </td>
+
+                                <%- include('./partials/_priorityInput.ejs',{input: ele.priority}) %> 
+
+                                <td class="text-nowrap"><%= ele.status %> </td>
                                 <td>
                                     <% if (userIsAdmin || user.id == (ele.assignedTo?._id || ele.createdBy._id)) { %>
                                      
                                     <div class="d-flex align-items-center">
-                                        <!-- modal button edit -->      
+                                        <!-- modal button edit --!>      
                                         <a href="#"  data-bs-toggle="modal" data-bs-target="#editModal<%= ele._id %>">
                                             <i class='bx bx-edit-alt text-success'></i>
                                         </a>
@@ -197,18 +216,18 @@
     <% if (typeof singleTask !== 'undefined') { %>
      
     <div class="row mt-4">
-        <div class="col-md-8">
+        <div class="col-md-8 pb-4 pb-md-0">
           <div class="card">
             <div class="card-header">
                 Task info
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-3 d-flex flex-column">
+                    <div class="col-md-3 d-flex flex-column pb-3 pb-md-0">
                         <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Task Name</span>
                         <span class="card-text ps-1"><%= singleTask.taskName %> </span>
                     </div>
-                    <div class="col-md-3 d-flex flex-column">
+                    <div class="col-md-3 d-flex flex-column pb-3 pb-md-0">
                         <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Created by</span>
                         <span class="card-text ps-1"><%= singleTask.createdBy.userName %> </span>
                     </div>
@@ -217,16 +236,16 @@
                         <span class="card-text ps-1"><%= singleTask.description %> </span>
                     </div>
                 </div>
-                <div class="row mt-4">
-                    <div class="col-md-3 d-flex flex-column">
+                <div class="row pt-3 pt-md-4">
+                    <div class="col-md-3 d-flex flex-column pb-3 pb-md-0">
                         <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Type</span>
                         <span class="card-text ps-1 text-capitalize"><%= singleTask.tag %> </span>
                     </div>
-                    <div class="col-md-3 d-flex flex-column">
+                    <div class="col-md-3 d-flex flex-column pb-3 pb-md-0">
                         <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Priority</span>
                         <span class="card-text ps-1 text-capitalize"><%= singleTask.priority %> </span>
                     </div>
-                    <div class="col-md-3 d-flex flex-column">
+                    <div class="col-md-3 d-flex flex-column pb-3 pb-md-0">
                         <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Status</span>
                         <span class="card-text ps-1 text-capitalize"><%= singleTask.status %> </span>
                     </div>
@@ -235,7 +254,7 @@
                         <span class="card-text ps-1"><%= singleTask.createdAt.toLocaleString() %> </span>
                     </div>
                 </div>
-                <div class="row mt-4">
+                <div class="row pt-3 pt-md-4">
                     <div class="col-md-4 d-flex flex-column">
                         <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Assigned to</span>
                         <span class="card-text ps-1"><%= singleTask.assignedTo?.userName || "not yet assigned" %> </span>

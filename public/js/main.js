@@ -39,6 +39,7 @@ if (ctx !== null && line !== null){
             const response = await fetch("/chart")
             const data = await response.json()
 
+            console.log(data.project)
             const projectNames = data.project.map(ele => ele.projectName)
             const numberOfTasks = data.project.map(ele => ele.tasks.length)
 
@@ -51,6 +52,7 @@ if (ctx !== null && line !== null){
 
             lineChart.data.labels = userNames
             lineChart.data.datasets[0].data = tasksPerUser
+            //lineChart.data.datasets[1].data = 
             lineChart.update()
             
         } catch (err) {

@@ -1,29 +1,5 @@
 <%- include("./layout/header.ejs") %> 
 
-
-<style>
-   .card .image{
-    height: 220px;
-    overflow: hidden;
-    border-radius: 4px 4px 0 0;
-    width: 100%;
-   }
-   .card .image img{
-    width: 100%;
-   }
-  .imgMargin{
-    margin-top: -110px;
-   }
-   .avatar{
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    border: 5px solid #ffffff;
-    margin-bottom: 15px;
-    object-fit: cover;
-   }
-</style>
-
 <main>
     <% if (locals.messages.errors) { %> 
         <% messages.errors.forEach( el => { %>
@@ -33,7 +9,7 @@
     <div class="row mt-4">
         <% if (loggedUser == user._id) { %>
          
-        <div class="col-md-8">
+        <div class="col-md-8 pb-4 pb-md-0">
             <div class="card">
                 <h5 class="card-header">Edit Profile</h5>
                 <div class="card-body">
