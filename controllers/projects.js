@@ -17,7 +17,7 @@ module.exports = {
           const projects = await Project.find({user: req.user.id}).lean();
           const allUsers = await User.find().lean()
           if(req.params.id){
-            project = await Project.findById(req.params.id).populate({path: 'tasks', populate : {
+            project = await Project.findById(req.params.id).populate('user').populate({path: 'tasks', populate : {
               path : 'createdBy assignedTo'
             }}).lean()
             projectsPage = false
