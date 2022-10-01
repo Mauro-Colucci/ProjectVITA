@@ -54,9 +54,9 @@
                 <% projects.forEach(project => { %>
                   
                 <tr>
-                    <td><a href="/project/<%= project._id %> " class="text-nowrap text-decoration-none text-reset"><%= project.projectName %></a></td>
+                    <td><div class="tableLink"><a href="/project/<%= project._id %> " class="text-nowrap text-decoration-none text-reset"><%= project.projectName %></a></div></td>
                     <td><%= project.description %></td>
-                    <td><a class="text-nowrap text-decoration-none text-reset" href="/profile/<%= project.user._id %>"><%= project.user.userName %></a></td>
+                    <td><div class="tableLink"><a class="text-nowrap text-decoration-none text-reset" href="/profile/<%= project.user._id %>"><%= project.user.userName %></a></div></td>
                 </tr>
 
                 <% }) %>

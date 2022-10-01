@@ -39,34 +39,9 @@
               </div>
   
             </div>
-            <div class="table-responsive">
-              <table id="myTable" class="table table-hover">
-                <thead class="table-dark">
-                  <tr>
-                    <th scope="col" class="text-nowrap">Task name</th>
-                    <th>Description</th>
-                    <th>Priority</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% singleProject.tasks.forEach(task => { %>
-                    
-                  <tr>
-                      <td><a href="/task/singleTask/<%= task._id %>" class="text-nowrap text-decoration-none text-reset"><%= task.taskName %></a></td>
-                      <td><%= task.description %></td>
-                      
-                      <%- include('./partials/_priorityInput.ejs',{input: task.priority}) %> 
-                      
-                      <td class="text-nowrap"><%= task.tag %> </td>
-                      <td><%= task.status %> </td>
-                  </tr>
-  
-                  <% }) %>
-                </tbody>
-              </table>
-            </div>
+         
+            <%- include('./partials/_megaTable.ejs', {element: singleProject.tasks, userIsAdmin: user.isAdmin, id: singleProject._id }) %> 
+
           </div>
           
         </div>

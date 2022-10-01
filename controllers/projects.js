@@ -15,12 +15,15 @@ module.exports = {
     let page = "My Projects"
       try {
           const projects = await Project.find({user: req.user.id}).lean();
+          const allUsers = await User.find().lean()
           if(req.params.id){
-            project = await Project.findById(req.params.id).populate('user tasks').lean()
+            project = await Project.findById(req.params.id).populate({path: 'tasks', populate : {
+              path : 'createdBy assignedTo'
+            }}).lean()
             projectsPage = false
             if(project.user._id != req.user.id) page = "Public Projects"
           }
-          res.render("projects", { projects: projects, projectsPage, singleProject: project, page, user: req.user, showSearch: true});
+          res.render("projects", { projects: projects, projectsPage, singleProject: project, page, user: req.user,allUsers, showSearch: true});
       } catch (err) {
           console.log(err);
       }
