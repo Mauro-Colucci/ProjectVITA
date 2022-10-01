@@ -39,7 +39,6 @@ if (ctx !== null && line !== null){
             const response = await fetch("/chart")
             const data = await response.json()
 
-            console.log(data.project)
             const projectNames = data.project.map(ele => ele.projectName)
             const numberOfTasks = data.project.map(ele => ele.tasks.length)
 
@@ -49,12 +48,38 @@ if (ctx !== null && line !== null){
 
             const userNames = data.user.map(user => user.userName)
             const tasksPerUser = data.user.map(user => user.assignedTasks.length)
-
+            const projectsPerUser = data.user.map(user => user.createdProjects.length)
+            
             lineChart.data.labels = userNames
             lineChart.data.datasets[0].data = tasksPerUser
-            //lineChart.data.datasets[1].data = 
+            lineChart.data.datasets[1].data = projectsPerUser
             lineChart.update()
             
+           /*  const arr = data.project.map(ele=> [ele.user.userName, ele.projectName])
+            const entry = arr.map(a=>Object.fromEntries([a]))
+            const userProjectObj = entry.reduce((prv, cur) => {
+            Object.entries(cur).forEach(([key, v]) => key in prv ? prv[key].push(v) : (prv[key] = [v]));
+            return prv;
+            }, {})
+
+            let projectsPerUser = []
+
+            userNames.forEach(key=>{
+                if(!Object.hasOwn(userProjectObj, key)){
+                  userProjectObj[key] = []
+                }
+            })
+
+            for(let key in userProjectObj){
+                projectsPerUser.push(userProjectObj[key])
+            }
+            
+            console.log(data.user, userProjectObj)
+
+            lineChart.data.datasets[1].data = projectsPerUser.map(ele=> ele.length)
+            lineChart.update()
+ */
+
         } catch (err) {
             console.error(err)
         } 
@@ -105,14 +130,59 @@ if (ctx !== null && line !== null){
                 borderColor: [
                     'rgba(255, 99, 132, 1)'
                 ],
-                borderWidth: 1
-                },
+                borderWidth: 1,
+                yAxisID: 'y'
+            },
                 //can add more datasets in the array, so I can plot multiple datasets in the same graph
-            ]
+            {
+                label: 'Projects active',
+                data: [],
+                backgroundColor: [
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1,
+                yAxisID: 'y1'
+            }]
         },
         options: {
             responsive: true,
-            scales:{
+            interaction: {
+                mode: 'index',
+            },
+            intersect: false,
+            stacked: false,
+            scales: {
+                y: {
+                  type: 'linear',
+                  display: true,
+                  position: 'left',
+                  //y axis begin at 0
+                  beginAtZero: true,
+                  ticks: {
+                      //Achieved integers for Y axis
+                      precision: 0
+                  }
+                },
+                y1: {
+                  type: 'linear',
+                  display: true,
+                  position: 'right',
+                  //y axis begin at 0
+                  beginAtZero: true,
+                  ticks: {
+                      //Achieved integers for Y axis
+                      precision: 0
+                  },
+                  // grid line settings
+                  grid: {
+                    drawOnChartArea: false, // only want the grid lines for one axis to show up
+                  },
+                },
+            }
+          /*   scales:{
                 y: {
                     //y axis begin at 0
                     beginAtZero: true,
@@ -120,8 +190,16 @@ if (ctx !== null && line !== null){
                         //Achieved integers for Y axis
                         precision: 0
                     }
+                },
+                y1: {
+                    //y axis begin at 0
+                    beginAtZero: true,
+                    ticks: {
+                        //Achieved integers for Y axis
+                        precision: 0
+                    }
                 }
-            }
+            } */
         }
     });
 }

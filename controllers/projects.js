@@ -5,7 +5,8 @@ bcrypt = require('bcrypt')
 //will be removed/changed
 const Project = require("../models/Project");
 const Task = require("../models/Task")
-const Comment = require("../models/Comment")
+const Comment = require("../models/Comment");
+const User = require("../models/User");
 
 module.exports = {
   getProjects: async (req, res) => {
@@ -64,13 +65,14 @@ module.exports = {
     try {
       //const result = await cloudinary.uploader.upload(req.file.path);
 
-      await Project.create({
+      const project = await Project.create({
         projectName: req.body.projectName,
         //image: result.secure_url,
         //cloudinaryId: result.public_id,
         description: req.body.description,
         user: req.user.id,
       });
+      await User.findByIdAndUpdate(req.user.id, {$push:{createdProjects: project._id}})
       console.log("Project has been added!");
       res.redirect("back");
     } catch (err) {
@@ -89,6 +91,7 @@ module.exports = {
       await Project.deleteOne({ _id: id });
       await Task.deleteMany({ projectId: id })
       await Comment.deleteMany({ projectId: id })
+      await User.findByIdAndUpdate(project.user, {$pull:{createdProjects: project._id}})
       console.log("Deleted Project");
       res.redirect("back");
     } catch (err) {

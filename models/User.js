@@ -40,6 +40,10 @@ const UserSchema = new mongoose.Schema({
   cloudinaryId: {
     type: String
   },
+  createdProjects:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Projects"
+  }],
   assignedTasks: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Task"
