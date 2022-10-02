@@ -34,8 +34,8 @@
                 
                 <div class="topNavUser">
                     <a class="dropdown-toggle nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="<%= user.avatar || 'imgs/defaultAvatar.webp' %>" alt="" loading="lazy" class="topNavAvatar">
-                        <span><%= user.userName %> </span>
+                        <img src="<%= loggedUser.avatar || 'imgs/defaultAvatar.webp' %>" alt="" loading="lazy" class="topNavAvatar">
+                        <span><%= loggedUser.userName %> </span>
                     </a>
                   
                   <ul class="topNavUserDropdown dropdown-menu">

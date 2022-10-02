@@ -7,7 +7,7 @@
 
       <div class="col-md-3">
 
-        <% if (projectsPage || user.id == singleProject?.user._id) { %>
+        <% if (projectsPage || loggedUser.id == singleProject?.user._id) { %>
           <%- include('./partials/_myProjectsTable.ejs') %>             
         <% } %>
 
@@ -18,7 +18,7 @@
       </div>
 
       <div class="col-md-9">
-        <% if (projectsPage || user.id == singleProject?.user._id) { %>
+        <% if (projectsPage || loggedUser.id == singleProject?.user._id) { %>
           <%- include('./partials/_projectsEditForm.ejs') %> 
         <% } else { %>
           <%- include('./partials/_projectsStaticForm.ejs') %> 
@@ -38,9 +38,12 @@
                 <h5 class="card-title">Project tasks</h5>
               </div>
   
+              <%- include('./partials/_addTaskButton.ejs', {id: singleProject._id}) %> 
+
+
             </div>
          
-            <%- include('./partials/_megaTable.ejs', {element: singleProject.tasks, userIsAdmin: user.isAdmin, id: singleProject._id }) %> 
+            <%- include('./partials/_megaTable.ejs', {element: singleProject.tasks, userIsAdmin: loggedUser.isAdmin, id: singleProject._id }) %> 
 
           </div>
           

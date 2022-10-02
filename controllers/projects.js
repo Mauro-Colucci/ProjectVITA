@@ -23,7 +23,7 @@ module.exports = {
             projectsPage = false
             if(project.user._id != req.user.id) page = "Public Projects"
           }
-          res.render("projects", { projects: projects, projectsPage, singleProject: project, page, user: req.user,allUsers, showSearch: true});
+          res.render("projects", { projects: projects, projectsPage, singleProject: project, page, loggedUser: req.user,allUsers, showSearch: true});
       } catch (err) {
           console.log(err);
       }
@@ -38,7 +38,6 @@ module.exports = {
         project.cloudinaryId && await cloudinary.uploader.destroy(project.cloudinaryId);
         result = await cloudinary.uploader.upload(req.file.path);
       }
-      console.log(req.body)
       await project.updateOne({
         image: result?.secure_url,
         cloudinaryId: result?.public_id,
@@ -59,7 +58,7 @@ module.exports = {
       const projects = await Project.find({publish: {$ne: false}}).sort({ createdAt: "asc" }).populate('user').lean();
       //investigate if I need to add a new field to store the length of the tasks array like:
       //findByIdAndUpdate(id, {"$push": { "answers": answerId }, "$inc": { "answerLength": 1 } })
-      res.render("dashboard.ejs", { projects, user: req.user, page: "Dashboard", showSearch: true });
+      res.render("dashboard.ejs", { projects, loggedUser: req.user, page: "Dashboard", showSearch: true });
     } catch (err) {
       console.log(err);
     }

@@ -7,7 +7,7 @@
         <% }) %> 
     <% } %>
     <div class="row mt-4">
-        <% if (loggedUser == user._id) { %>
+        <% if (loggedUser._id == user._id) { %>
          
         <div class="col-md-8 pb-4 pb-md-0">
             <div class="card">
@@ -111,19 +111,19 @@
                                 <div class="modal-body mx-4">                                
                                     <div class="input-group mb-3">
                                         <span class="input-group-text" id="basic-addon1"><i class='bx bxl-github'></i></span>
-                                        <input type="text" class="form-control" name="github" placeholder="Github account..." value="<%= user.socials?.github %>">
+                                        <input type="url" class="form-control" name="github" placeholder="Github account..." value="<%= user.socials?.github %>">
                                     </div>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text" id="basic-addon2"><i class='bx bxl-twitter' ></i></span>
-                                        <input type="text" class="form-control" name="twitter" placeholder="Twitter account..." value="<%= user.socials?.twitter %>">
+                                        <input type="url" class="form-control" name="twitter" placeholder="Twitter account..." value="<%= user.socials?.twitter %>">
                                     </div>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text" id="basic-addon3"><i class='bx bxl-linkedin-square' ></i></span>
-                                        <input type="text" class="form-control" name="linkedIn" placeholder="LinkedIn account..." value="<%= user.socials?.linkedIn %>">
+                                        <input type="url" class="form-control" name="linkedIn" placeholder="LinkedIn account..." value="<%= user.socials?.linkedIn %>">
                                     </div>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text" id="basic-addon4"><i class='bx bxl-twitch' ></i></span>
-                                        <input type="text" class="form-control" name="twitch" placeholder="Twitch account..." value="<%= user.socials?.twitch %>">
+                                        <input type="url" class="form-control" name="twitch" placeholder="Twitch account..." value="<%= user.socials?.twitch %>">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -157,20 +157,23 @@
                         <%= user.personalDetails?.aboutMe %> 
                     </p>
                 </div>
+                <% if (user.socials) { %>
                 <div class="card-footer text-center">
                     <% if (user.socials?.github) { %>
-                        <a href="<%= user.socials?.github %>" target="_blank" class='bx bxl-github text-decoration-none text-reset fs-5'></a>
+                        <a href="<%= user.socials?.github %>" target="_blank" class='bx bxl-github text-decoration-none text-reset fs-5 px-3'></a>
                     <% } %>
                     <% if (user.socials?.twitter) { %>
-                        <a href="<%= user.socials?.twitter %>" target="_blank" class='bx bxl-twitter text-decoration-none text-reset fs-5'></a>
+                        <a href="<%= user.socials?.twitter %>" target="_blank" class='bx bxl-twitter text-decoration-none text-reset fs-5 px-3'></a>
                     <% } %>
                     <% if (user.socials?.linkedIn) { %>
-                        <a href="<%= user.socials?.linkedIn %>" target="_blank" class='bx bxl-linkedin-square text-decoration-none text-reset fs-5'></a>
+                        <a href="<%= user.socials?.linkedIn %>" target="_blank" class='bx bxl-linkedin-square text-decoration-none text-reset fs-5 px-3'></a>
                     <% } %>
                     <% if (user.socials?.twitch) { %>
-                        <a href="<%= user.socials?.twitch %>" target="_blank" class='bx bxl-twitch text-decoration-none text-reset fs-5'></a>
+                        <a href="<%= user.socials?.twitch %>" target="_blank" class='bx bxl-twitch text-decoration-none text-reset fs-5 px-3'></a>
                     <% } %>
                 </div>
+                <% } %>
+
             </div>
         </div>
     </div>

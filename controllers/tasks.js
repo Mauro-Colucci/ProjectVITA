@@ -24,19 +24,19 @@ module.exports = {
             }
             const allUsers = await User.find().lean()
             const userIsAdmin = await User.findById(req.user.id)
-            res.render("singleTask", { task, page, user: req.user,userIsAdmin: userIsAdmin.isAdmin , showSearch: true, id: ProjectId, allUsers})
+            res.render("singleTask", { task, page, loggedUser: req.user,userIsAdmin: userIsAdmin.isAdmin , showSearch: true, id: ProjectId, allUsers})
         } catch (err) {
             console.error(err)
         }
     },
     getSingleTask: async(req, res)=>{
         try {
-            const task = await Task.findById(req.params.id).populate("createdBy assignedTo").lean();
-            const tasks = await Task.find({projectId: task.projectId}).populate("createdBy assignedTo").lean();
+            const task = await Task.findById(req.params.id).populate("projectId createdBy assignedTo").lean();
+            const tasks = await Task.find({projectId: task.projectId, status: {$ne:'closed'}}).populate("createdBy assignedTo").lean();
             const comments = await Comment.find({taskId: req.params.id}).sort({createdAt: "desc"}).populate("createdBy").lean()
             const allUsers = await User.find().lean()
             const userIsAdmin = await User.findById(req.user.id)
-            res.render("singleTask", { singleTask: task, userIsAdmin: userIsAdmin.isAdmin ,  task: tasks, page: "Project Tasks", user: req.user, showSearch: true, id: task.projectId, comments, allUsers})
+            res.render("singleTask", { singleTask: task, userIsAdmin: userIsAdmin.isAdmin ,  task: tasks, page: "Project Tasks", loggedUser: req.user, showSearch: true, id: task.projectId, comments, allUsers})
         } catch (err) {
             console.error(err)
         }
@@ -58,7 +58,8 @@ module.exports = {
             });
             await Project.findByIdAndUpdate(projectId, {$push: { tasks: task.id }})
             console.log("task has been added!");
-            res.redirect(`/task/${projectId}`);
+            res.redirect('back')
+            //res.redirect(`/task/${projectId}`);
         } catch (err) {
             console.log(err);
         }
