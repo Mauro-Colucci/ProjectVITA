@@ -14,7 +14,7 @@
           <% for( let i = 0; i < 5; i++ ) { %>
            <li class="list-group-item">
             <div class="d-grid gap-2 col-8 mx-auto my-1">
-              <a href="/task/<%= projects[i]._id %> " class="btn btn-light position-relative">
+              <a href="/task/projectTask/<%= projects[i]._id %> " class="btn btn-light position-relative">
                 <%= projects[i].projectName %> 
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
                   <%= projects[i].tasks.length %>

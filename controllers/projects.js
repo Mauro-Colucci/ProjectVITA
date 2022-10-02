@@ -23,7 +23,7 @@ module.exports = {
             projectsPage = false
             if(project.user._id != req.user.id) page = "Public Projects"
           }
-          res.render("projects", { projects: projects, projectsPage, singleProject: project, page, loggedUser: req.user,allUsers, showSearch: true});
+          res.render("projects", { projects: projects, projectsPage, singleProject: project, page, loggedUser: req.user,allUsers, showSearch: true, myTask: false});
       } catch (err) {
           console.log(err);
       }

@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <% if (typeof singleTask !== 'undefined') { %>
+    <% if (singleTask !== null) { %>
      
     <div class="row mt-4">
         <div class="col-md-8 pb-4 pb-md-0">
@@ -39,44 +39,44 @@
                 <div class="row">
                     <div class="col-md-3 d-flex flex-column pb-3 pb-md-0">
                         <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Task Name</span>
-                        <span class="card-text ps-1"><%= singleTask.taskName %> </span>
+                        <span class="card-text ps-1"><%= singleTask?.taskName %> </span>
                     </div>
                     <div class="col-md-3 d-flex flex-column pb-3 pb-md-0">
                         <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Created by</span>
-                        <span class="card-text ps-1"><a href="/profile/<%= singleTask.createdBy._id %>"  class="text-nowrap text-decoration-none text-reset"><%= singleTask.createdBy.userName %></a></span>
+                        <span class="card-text ps-1"><a href="/profile/<%= singleTask?.createdBy._id %>"  class="text-nowrap text-decoration-none text-reset"><%= singleTask?.createdBy.userName %></a></span>
                     </div>
                     <div class="col-md-6 d-flex flex-column">
                         <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Description</span>
-                        <span class="card-text ps-1"><%= singleTask.description %> </span>
+                        <span class="card-text ps-1"><%= singleTask?.description %> </span>
                     </div>
                 </div>
                 <div class="row pt-3 pt-md-4">
                     <div class="col-md-3 d-flex flex-column">
                         <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Project name</span>
-                        <span class="card-text ps-1"><a href="/project/<%= singleTask.projectId._id %>"  class="text-nowrap text-decoration-none text-reset"><%= singleTask.projectId.projectName %></a></span>
+                        <span class="card-text ps-1"><a href="/project/<%= singleTask?.projectId._id %>"  class="text-nowrap text-decoration-none text-reset"><%= singleTask?.projectId.projectName %></a></span>
                     </div>
                     <div class="col-md-3 d-flex flex-column pb-3 pb-md-0">
                         <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Type</span>
-                        <span class="card-text ps-1 text-capitalize"><%= singleTask.tag %> </span>
+                        <span class="card-text ps-1 text-capitalize"><%= singleTask?.tag %> </span>
                     </div>
                     <div class="col-md-3 d-flex flex-column pb-3 pb-md-0">
                         <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Priority</span>
-                        <span class="card-text ps-1 text-capitalize"><%= singleTask.priority %> </span>
+                        <span class="card-text ps-1 text-capitalize"><%= singleTask?.priority %> </span>
                     </div>
                     <div class="col-md-3 d-flex flex-column pb-3 pb-md-0">
                         <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Status</span>
-                        <span class="card-text ps-1 text-capitalize"><%= singleTask.status %> </span>
+                        <span class="card-text ps-1 text-capitalize"><%= singleTask?.status %> </span>
                     </div>
                     
                 </div>
                 <div class="row pt-3 pt-md-4">
                     <div class="col-md-4 d-flex flex-column">
                         <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Assigned to</span>
-                        <span class="card-text ps-1"><%= singleTask.assignedTo?.userName || "not yet assigned" %> </span>
+                        <span class="card-text ps-1"><%= singleTask?.assignedTo?.userName || "not yet assigned" %> </span>
                     </div>
                     <div class="col-md-3 d-flex flex-column">
                         <span class="text-muted fw-light fs-7 pb-1 text-uppercase">Created on</span>
-                        <span class="card-text ps-1"><%= singleTask.createdAt.toLocaleString() %> </span>
+                        <span class="card-text ps-1"><%= singleTask?.createdAt.toLocaleString() %> </span>
                     </div>
                 </div>
             </div>

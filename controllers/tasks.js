@@ -11,7 +11,8 @@ module.exports = {
     //no id brings MY tasks, with id brings a specific project tasks
     //TODO: refactor=> NO ID: brings all my tasks. :ID brings a single task from MY TASKS
     //keeps MY TASKS in megatable
-    getTasks: async (req, res) =>{
+    //replace by getowntask
+ /*    getTasks: async (req, res) =>{
         let task
         let ProjectId = ""
         let page = "My Tasks"
@@ -32,13 +33,50 @@ module.exports = {
         } catch (err) {
             console.error(err)
         }
+    }, */
+    getOwnTask: async(req, res)=>{
+        let singleTask = null
+        let comments = null
+        const id = ""
+        try {
+            const myActiveTasks = await Task.find({assignedTo: req.user.id, status: {$ne:'closed'}}).sort({createdAt: "desc"}).populate("createdBy assignedTo").lean();
+            if(req.params.myTasksId){
+                singleTask = await Task.findById(req.params.myTasksId).populate("projectId createdBy assignedTo").lean();
+                comments = await Comment.find({taskId: req.params.myTasksId}).sort({createdAt: "desc"}).populate("createdBy").lean()
+            }
+            const allUsers = await User.find().lean()
+            const reqUserIsAdmin = await User.findById(req.user.id)
+            //res.json({singleTask, myActiveTasks, allUsers, userIsAdmin: reqUserIsAdmin.isAdmin, comments})
+            //renamed singleTask to taskPage
+            res.render("taskPage", {task: myActiveTasks, allUsers, singleTask, page: "My Tasks", comments, showSearch: true, loggedUser: req.user, userIsAdmin: reqUserIsAdmin.isAdmin, id, myTask: true})
+
+        } catch (err) {
+            console.error(err)
+        }
     },
     // route could be something like projectTasks/:projectId/:taskId?
     //projectTasks/:projectId should bring ALL tasks from a singleProject
     //projectTasks/:projectId/:taskId brings a specific task for that project
     //keeps tasks for that specific project in mega table
-    //getAllTasksFromProject
-    getSingleTask: async(req, res)=>{
+    getProjectTask: async(req, res)=>{
+        let singleTask = null
+        let comments = null
+        try {
+            const projectAllTasks = await Task.find({projectId: req.params.projectId, status: {$ne:'closed'}}).populate("createdBy assignedTo").lean();
+            if(req.params.taskId){
+                singleTask = await Task.findById(req.params.taskId).populate("projectId createdBy assignedTo").lean();
+                comments = await Comment.find({taskId: req.params.myTasksId}).sort({createdAt: "desc"}).populate("createdBy").lean()
+            }
+            const allUsers = await User.find().lean()
+            const reqUserIsAdmin = await User.findById(req.user.id)
+            //res.json({projectTask, projectAllTasks, allUsers, userIsAdmin: reqUserIsAdmin.isAdmin, comments})
+            res.render("taskPage", {task: projectAllTasks, singleTask, allUsers, id: req.params.projectId, page: "Project Tasks", comments, showSearch: true, loggedUser: req.user, userIsAdmin: reqUserIsAdmin.isAdmin, myTask: false})
+        } catch (err) {
+            console.error(err)
+        }
+    },
+    //replaced by singleprojecttask
+ /*    getSingleTask: async(req, res)=>{
         try {
             const task = await Task.findById(req.params.id).populate("projectId createdBy assignedTo").lean();
             const tasks = await Task.find({projectId: task.projectId, status: {$ne:'closed'}}).populate("createdBy assignedTo").lean();
@@ -49,7 +87,7 @@ module.exports = {
         } catch (err) {
             console.error(err)
         }
-    },
+    }, */
     creatTask: async (req, res) => {
         try {
             //const result = await cloudinary.uploader.upload(req.file.path);

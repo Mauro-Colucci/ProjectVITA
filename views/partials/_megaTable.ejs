@@ -19,14 +19,21 @@
             
             <tr>
                 <td><%= index + 1 %> </td>
-                <td><div class="tableLink"><a href="/task/singleTask/<%= ele._id %>"  class="text-nowrap text-decoration-none text-reset"><%= ele.taskName %></a></div></td>
+                <td><div class="tableLink">
+                    <% if (myTask) { %>        
+                        <a href="/task/<%= ele._id %>"  class="text-nowrap text-decoration-none text-reset"><%= ele.taskName %></a>
+                    <% } else { %>
+                        <a href="/task/projectTask/<%= id %>/<%= ele._id %>"  class="text-nowrap text-decoration-none text-reset"><%= ele.taskName %></a>
+                    <% } %>
+
+                </div></td>
                 <td><%= ele.description %></td>
                 <td><div class="tableLink"><a href="/profile/<%= ele.createdBy._id %>"  class="text-nowrap text-decoration-none text-reset"><%= ele.createdBy.userName %></a></div></td>
                 <td><div class="tableLink"><a href="/profile/<%= ele.assignedTo?._id %>"  class="text-nowrap text-decoration-none text-reset"><%= ele.assignedTo?.userName %></a></div></td>
                 <td class="text-nowrap"><%= ele.tag %> </td>
-
-                <%- include('../partials/_priorityInput.ejs',{input: ele.priority}) %> 
-
+                <td class="text-center">
+                    <%- include('../partials/_priorityInput.ejs',{input: ele.priority}) %> 
+                </td>
                 <td class="text-nowrap"><%= ele.status %> </td>
                 <td>
                     <% if (userIsAdmin || loggedUser.id == (ele.assignedTo?._id || ele.createdBy._id)) { %>
