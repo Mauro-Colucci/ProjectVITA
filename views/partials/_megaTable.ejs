@@ -29,7 +29,7 @@
 
                 <td class="text-nowrap"><%= ele.status %> </td>
                 <td>
-                    <% if (userIsAdmin || user.id == (ele.assignedTo?._id || ele.createdBy._id)) { %>
+                    <% if (userIsAdmin || loggedUser.id == (ele.assignedTo?._id || ele.createdBy._id)) { %>
                     
                     <div class="d-flex align-items-center">
                         <!-- modal button edit -->      

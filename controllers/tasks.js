@@ -8,6 +8,9 @@ const User = require("../models/User");
 const Comment = require("../models/Comment");
 
 module.exports = {
+    //no id brings MY tasks, with id brings a specific project tasks
+    //TODO: refactor=> NO ID: brings all my tasks. :ID brings a single task from MY TASKS
+    //keeps MY TASKS in megatable
     getTasks: async (req, res) =>{
         let task
         let ProjectId = ""
@@ -20,15 +23,21 @@ module.exports = {
                 page = "Project Tasks"
             } else {
                 //$ne = not equal to
-                task = await Task.find({assignedTo: req.user.id, status: {$ne:'closed'}}).populate("createdBy assignedTo").lean();
+                //"desc" sorts with newer first
+                task = await Task.find({assignedTo: req.user.id, status: {$ne:'closed'}}).sort({createdAt: "desc"}).populate("createdBy assignedTo").lean();
             }
             const allUsers = await User.find().lean()
             const userIsAdmin = await User.findById(req.user.id)
-            res.render("singleTask", { task, page, loggedUser: req.user,userIsAdmin: userIsAdmin.isAdmin , showSearch: true, id: ProjectId, allUsers})
+            res.render("singleTask", { task, page, loggedUser: req.user, userIsAdmin: userIsAdmin.isAdmin , showSearch: true, id: ProjectId, allUsers})
         } catch (err) {
             console.error(err)
         }
     },
+    // route could be something like projectTasks/:projectId/:taskId?
+    //projectTasks/:projectId should bring ALL tasks from a singleProject
+    //projectTasks/:projectId/:taskId brings a specific task for that project
+    //keeps tasks for that specific project in mega table
+    //getAllTasksFromProject
     getSingleTask: async(req, res)=>{
         try {
             const task = await Task.findById(req.params.id).populate("projectId createdBy assignedTo").lean();

@@ -10,23 +10,22 @@
           <p class="card-text">Amount per project.</p>
         </div>
         <ul class="list-group list-group-flush">
-          <!-- need to cap this at 5 and sort them by amount of tasks per project -->
-          <% projects.forEach(project => { %>
+          <% projects.sort((a,b)=> b.tasks.length - a.tasks.length) %>
+          <% for( let i = 0; i < 5; i++ ) { %>
            <li class="list-group-item">
             <div class="d-grid gap-2 col-8 mx-auto my-1">
-              <a href="/task/<%= project._id %> " class="btn btn-light position-relative">
-                <%= project.projectName %> 
+              <a href="/task/<%= projects[i]._id %> " class="btn btn-light position-relative">
+                <%= projects[i].projectName %> 
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
-                  <%= project.tasks.length %>
+                  <%= projects[i].tasks.length %>
                 </span>
               </a>
             </div>
             </li>
-          <% }) %>
+          <% } %>
         </ul>
       </div>
     </div>
-
     <div class="col-md-9">
       <div class="card">
         <div class="card-body">
