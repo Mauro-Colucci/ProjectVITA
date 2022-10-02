@@ -1,0 +1,54 @@
+ <!-- modal button to add new tasks -->
+ <% if (id !== '') { %>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewTaskStaticBackdrop">
+        + Task
+    </button>
+<% } %>
+
+<!-- add form Modal -->
+<div class="modal fade " id="addNewTaskStaticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Add new task</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/task/createTask" method="POST">
+                <input hidden name="project" value="<%= id %>">
+                <div class="modal-body mx-2">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="folatingTitle" name="taskName" placeholder="Title">
+                        <label for="folatingTitle">Title</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea rows="5" class="form-control" style="height: auto;" id="floatingDescription" name="description" placeholder="Description"></textarea>
+                        <label for="floatingDescription">Description</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="tag">
+                                <option selected>Type</option>
+                                <option value="bug">Bug</option>
+                                <option value="new feature">New feature</option>
+                                <option value="todo">To do</option>
+                                <option value="misc">Misc.</option>
+                              </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="priority">
+                                <option selected>Priority</option>
+                                <option value="high">High</option>
+                                <option value="moderate">Moderate</option>
+                                <option value="low">Low</option>
+                              </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end of add form Modal -->

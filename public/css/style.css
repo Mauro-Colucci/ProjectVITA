@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap');
 
 :root{
     --primary-bg: #1d1d1d;
@@ -12,6 +13,55 @@ body{
     padding: 0;
 }
 
+/*********login page**********/
+.bodyLog {
+    display: flex;
+    align-items: center;
+    /* background-color: #f5f5f5; */
+    background: rgb(0,0,0);
+    background: linear-gradient(335deg, rgba(0,0,0,1) 0%, rgba(221,216,156,1) 50%, rgba(242,242,242,1) 100%);
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+}
+
+.form-floating:focus-within {
+    z-index: 2;
+}
+
+.form-floating>.form-control.textArea{
+    height: auto;
+}
+
+.form-signin #floatingUsername,
+.form-signin #floatingLoginInput,
+#floatingNewPassword,
+#folatingTitle,
+#floatingEditTitle{
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin #floatingInput{
+    border-radius: 0;
+    margin-bottom: -1px;
+}
+.form-signin #floatingPassword{
+    border-radius: 0;
+    margin-bottom: -1px;
+}
+.form-signin #floatingConfirmPassword,
+.form-signin #floattingLoginPassword,
+#floatingConfirmNewPassword,
+#floatingDescription,
+#floatingEditDescription{
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+/**********end of login**********/
 .main-content{
     margin-left: 60px;
     transition: all .5s ease;
@@ -23,15 +73,17 @@ body{
 }
 
 .main-content main{
-    padding: 0 24px;
+    padding: 60px 24px;
 }
 
-.main-content .navbar{
+.main-content .topNav,
+.main-content .footbar{
     margin-left: 60px;
     transition: all .5s ease;
 }
 
-.wrapper.active .main-content .navbar{
+.wrapper.active .main-content .topNav,
+.wrapper.active .main-content .footbar{
     margin-left: 250px;
 }
 
@@ -254,11 +306,15 @@ body{
     cursor: pointer;
 }
 
+
 /* Top navbar */
 
-.topNav{
-    position: sticky;
+.topNav,
+.footbar{
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     height: 60px;
     background-color: #faf9f6;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -266,13 +322,25 @@ body{
     box-shadow: 0 0 18px rgb(0 0 0 / 20%);
 }
 
-.topNavWrapper{
+.footbar{
+    bottom: 0;
+    top: inherit;
+    height: 50px;
+}
+
+
+.topNavWrapper,
+.footWrapper{
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 100%;
     padding: 0 20px;
     position: relative;
+}
+
+.footWrapper{
+    justify-content: center;
 }
 
 .topNavSearch{
@@ -354,4 +422,120 @@ body{
 .page-link:focus{
     box-shadow: none;
 }
+
+div.dataTables_wrapper div.dataTables_filter input{
+    width: 100%;
+    max-width: 176px;
+    margin-left: 0;
+}
+
+.tableLink:hover{
+    color: transparent;
+    background: #4b4b4b;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    text-shadow: 0px 3px 3px rgba(255,255,255,0.6);
+    scale: 1.01;
+    cursor: pointer;
+    transition: all .4s ease;
+}
 /*dataTable end*/
+
+/*profile*/
+.card .image{
+    height: 220px;
+    overflow: hidden;
+    border-radius: 4px 4px 0 0;
+    width: 100%;
+}
+.card .image img{
+    width: 100%;
+}
+.imgMargin{
+    margin-top: -110px;
+}
+.avatar{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 5px solid #ffffff;
+    margin-bottom: 15px;
+    object-fit: cover;
+}
+/*profile end*/
+
+/* comments */
+.comment {
+    padding: .5rem;
+    border: 1px solid var(--bs-border-color-translucent);
+    border-radius: .5rem;
+    margin-bottom: 1rem;
+}
+
+.comment .header {
+    color: hsl(235, 50%, 67%);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: .25rem;
+    font-size: .75em;
+}
+
+.edited {
+    color: hsl(235, 50%, 67%);
+    font-size: .75em;
+    display: flex;
+    align-items: end;
+}
+
+.comment .header .name {
+    font-weight: bold;
+}
+
+.comment .message {
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+
+.comment .footer {
+    display: flex;
+    gap: .5rem;
+    margin-top: .5rem;
+}
+.commentBtn {
+    --hue: 235;
+    --color: hsl(var(--hue), 100%, 67%);
+    padding: .5em 1em;
+    background: var(--color);
+    border: none;
+    color: white;
+    border-radius: .5em;
+    font-size: .75em;
+    cursor: pointer;
+}
+
+.commentBtn:hover,
+.commentBtn:focus-visible {
+    --color: hsl(var(--hue), 100%, 74%);
+}
+
+.commentBtn.icon-btn {
+    background: none;
+    color: var(--color);
+    padding: .25em;
+    display: flex;
+    align-items: center;
+}
+.ml-1{
+    margin-left: 0.25rem;
+}
+
+.icon-btn:hover,
+.icon-btn:focus-visible {
+    --color: hsl(var(--hue), 100%, 74%);
+}
+
+.icon-btn.danger {
+    --hue: 0;
+}
+/*comments end*/

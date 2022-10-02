@@ -1,0 +1,35 @@
+<!-- modal button to add new projects -->
+<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    <%= text %> 
+  </button>
+
+<!-- form Modal -->
+<div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Add new project</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form action="/project/createProject" method="POST">
+
+                <div class="modal-body mx-4">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="folatingTitle" name="projectName" placeholder="Project title">
+                    <label for="folatingTitle">Project title</label>
+                </div>
+                <div class="form-floating">
+                    <textarea rows="5" class="form-control textArea" id="floatingDescription" name="description" placeholder="Project description"></textarea>
+                    <label for="floatingDescription">Project description</label>
+                </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Create</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end of form Modal -->

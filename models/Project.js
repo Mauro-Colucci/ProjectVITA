@@ -1,7 +1,6 @@
-const { Timestamp } = require("mongodb");
 const mongoose = require("mongoose");
 
-const PostSchema = new mongoose.Schema({
+const ProjectSchema = new mongoose.Schema({
   projectName: {
     type: String,
     required: true,
@@ -25,10 +24,16 @@ const PostSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  issue: [{
+  sourceCode: {
+    type: String
+  },
+  liveDemo: {
+    type: String
+  },
+  tasks: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Issue"
+    ref: "Task"
   }]
 }, {timestamps: true});
 
-module.exports = mongoose.model("Post", PostSchema);
+module.exports = mongoose.model("Project", ProjectSchema);

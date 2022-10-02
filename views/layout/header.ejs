@@ -34,8 +34,8 @@
                 
                 <div class="topNavUser">
                     <a class="dropdown-toggle nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="<%= user.avatar || 'imgs/defaultAvatar.webp' %>" alt="" loading="lazy" class="topNavAvatar">
-                        <span><%= user.userName %> </span>
+                        <img src="<%= loggedUser.avatar || 'imgs/defaultAvatar.webp' %>" alt="" loading="lazy" class="topNavAvatar">
+                        <span><%= loggedUser.userName %> </span>
                     </a>
                   
                   <ul class="topNavUserDropdown dropdown-menu">
@@ -76,30 +76,30 @@
                       <span class="flag_text">Profile</span>
                   </li>
                   <li>
-                      <a href="#">
-                          <i class='bx bx-pie-chart-alt-2' ></i>
-                          <span class="links_name">Analitycs</span>
-                      </a>
-                      <span class="flag_text">Analitycs</span>
-                  </li>
-                  <li>
                       <a href="/project">
                           <i class='bx bx-folder' ></i>
                           <span class="links_name">My projects</span>
                       </a>
                       <span class="flag_text">My projects</span>
                   </li>
-                <!--   <li>
-                      <a href="#">
-                          <i class='bx bx-cart' ></i>
-                          <span class="links_name">Order</span>
+                  <li>
+                      <a href="/task">
+                          <i class='bx bx-task'></i>
+                          <span class="links_name">My tasks</span>
                       </a>
-                      <span class="flag_text">Order</span>
-                  </li> -->
+                      <span class="flag_text">My tasks</span>
+                  </li>
+                  <li>
+                    <a href="#">
+                        <i class='bx bx-pie-chart-alt-2' ></i>
+                        <span class="links_name">Charts</span>
+                    </a>
+                    <span class="flag_text">Charts</span>
+                  </li>
                   <li>
                       <a href="#">
-                          <i class='bx bx-heart' ></i>
-                          <span class="links_name">Saved</span>
+                        <i class='bx bx-bookmark-heart'></i>
+                        <span class="links_name">Saved</span>
                       </a>
                       <span class="flag_text">Saved</span>
                   </li>

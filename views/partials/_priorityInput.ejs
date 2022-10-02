@@ -1,0 +1,14 @@
+<div class="badge rounded-pill 
+    <% switch(input) {
+        case 'high' : %>
+            text-bg-danger
+        <% break;
+        case 'moderate': %>
+            text-bg-warning
+        <% break;
+        case 'low': %>
+            text-bg-success
+        <% break;
+        }
+    %>
+    "><%= input %></div>

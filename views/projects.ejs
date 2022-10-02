@@ -1,131 +1,57 @@
-<%- include('./layout/header.ejs') %> 
-
+<%- include('./layout/header.ejs') %>             
 
 <main>
     <div class="row mt-4">
 
+      
+
       <div class="col-md-3">
+
+        <% if (projectsPage || loggedUser.id == singleProject?.user._id) { %>
+          <%- include('./partials/_myProjectsTable.ejs') %>             
+        <% } %>
+
+
+        <% if (typeof singleProject !== 'undefined') { %>
+          <%- include('./partials/_projectImage.ejs') %> 
+     
+      </div>
+
+      <div class="col-md-9">
+        <% if (projectsPage || loggedUser.id == singleProject?.user._id) { %>
+          <%- include('./partials/_projectsEditForm.ejs') %> 
+        <% } else { %>
+          <%- include('./partials/_projectsStaticForm.ejs') %> 
+        <% } %>
+        
+      </div>
+
+    </div>
+
+    <div class="row mt-4">
+  
+      <div class="col-md-12">
         <div class="card">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
               <div class="wrapper">
-                <h5 class="card-title">My Projects</h5>
+                <h5 class="card-title">Project tasks</h5>
               </div>
-
-            </div>
-            <div class="table-responsive">
-              <table id="myProjectsTable" class="table table-hover">
-                <thead class="table-dark">
-                  <tr>
-                    <!-- remove the inline css -->
-                    <th style="white-space: nowrap;">Project name</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% projects.forEach((project) => { %>
-                   
-                  <tr>
-                      <!-- remove the inline css -->
-                      <td class="d-flex justify-content-between">
-                        <a href="/project/<%= project.id %> " class="nav-link projectTable" style="white-space: nowrap;"><%= project.projectName %></a>
-
-                        <!-- use a modal for the edit and display the issues in the col-md-9? -->
-                        <form action="">
-                          <button class='btn btn-sm btn-outline-dark bx bx-edit-alt'></button>
-                        </form>
-                      </td>
   
-                  </tr>
+              <%- include('./partials/_addTaskButton.ejs', {id: singleProject._id}) %> 
 
-                  <% }) %>
-                </tbody>
-              </table>
+
             </div>
-          </div>
          
-        </div>
+            <%- include('./partials/_megaTable.ejs', {element: singleProject.tasks, userIsAdmin: loggedUser.isAdmin, id: singleProject._id }) %> 
 
-
-        <div class="card overflow-hidden my-4">
-            <img src= <%= singleProject?.image || "https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/styles/950/public/media/image/2019/05/rick-morty-temporada-4-llegara-noviembre.jpg?itok=6Bguw2Cu" %> alt="">
-        </div>
-      </div>
-
-      <div class="col-md-9">
-        <div class="card">
-           
-        <h5 class="card-header"><%= singleProject? singleProject.projectName : "create an editable form for a single project" %> </h5>
-          <div class="card-body">
-            <form action="/project/test?_method=PUT" enctype="multipart/form-data" method="POST">
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Company</label>
-                        <input type="text" class="form-control" name="Company" value="Creative Code Inc.">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label  class="form-label">Username</label>
-                        <input type="text" class="form-control" name="Username" value="<%= user.userName %> " disabled>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" value="<%= user.email %>" disabled>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label  class="form-label">First Name</label>
-                        <input type="text" class="form-control" placeholder="Company" value="Mike">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label  class="form-label">Last Name</label>
-                        <input type="text" class="form-control" placeholder="Company" value="Mike">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12 mb-3">
-                        <label  class="form-label">Address</label>
-                        <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">City</label>
-                        <input type="text" class="form-control" placeholder="City" value="Mike">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Country</label>
-                        <input type="text" class="form-control" placeholder="Country" value="Andrew">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="formFile" class="form-label">Profile picture</label>
-                        <input class="form-control" type="file" name="file" id="formFile">
-                    </div>
-
-                    <div class="mb-3">
-                      <label class="form-check-label me-2" for="exampleCheck1" >Make your project public?</label>
-                      <!-- this comparison works!! need to refactor using it -->
-                      <input type="checkbox" class="form-check-input" <%= singleProject?.publish? "checked": "" %>  id="exampleCheck1">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12 mb-3 ">
-                        <label class="form-label">Project description</label>
-                        <textarea rows="5" class="form-control" name="description"><%= singleProject? singleProject.description : "loremipsum" %> </textarea>
-                    </div>
-                </div>
-
-
-                <button type="submit" class="btn btn-success">Update Profile</button>
-
-            </form>
-        </div>
+          </div>
+          
         </div>
       </div>
     </div>
+
+    <% } %>
   </main>
 
 

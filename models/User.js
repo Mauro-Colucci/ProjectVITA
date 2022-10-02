@@ -19,22 +19,35 @@ const UserSchema = new mongoose.Schema({
   avatar: {
     type: String
   },
-  firstName: {
-    type: String
-  },
-  lastName: {
-    type: String
-  },
-  socials: {
-    type: Array
-  },
-  /* isAdmin: {
+  isAdmin: {
     type: Boolean,
     default: false
-  }, */
+  },
+  socials:{
+    github: {type: String},
+    twitter: {type: String},
+    linkedIn: {type: String},
+    twitch: {type: String},
+  },
+  personalDetails:{
+    company: {type: String},
+    possition: {type: String},
+    firstName: {type: String},
+    lastName: {type: String},
+    country: {type: String},
+    aboutMe: {type: String}
+  },
   cloudinaryId: {
     type: String
   },
+  createdProjects:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Projects"
+  }],
+  assignedTasks: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Task"
+  }]
 }, {timestamps: true});
 
 // Password hash middleware.

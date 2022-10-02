@@ -1,0 +1,125 @@
+<div class="table-responsive">
+    <table id="myTable" class="table table-hover">
+        <thead class="table-dark">
+            <tr>
+            <th>ID</th>
+            <th class="text-nowrap">Task name</th>
+            <th>Description</th>
+            <th class="text-nowrap">Created By</th>
+            <th class="text-nowrap">Assigned to</th>
+            <th>Type</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% element?.forEach((ele,index) => { %>
+            
+            <tr>
+                <td><%= index + 1 %> </td>
+                <td><div class="tableLink">
+                    <% if (myTask) { %>        
+                        <a href="/task/<%= ele._id %>"  class="text-nowrap text-decoration-none text-reset"><%= ele.taskName %></a>
+                    <% } else { %>
+                        <a href="/task/projectTask/<%= id %>/<%= ele._id %>"  class="text-nowrap text-decoration-none text-reset"><%= ele.taskName %></a>
+                    <% } %>
+
+                </div></td>
+                <td><%= ele.description %></td>
+                <td><div class="tableLink"><a href="/profile/<%= ele.createdBy._id %>"  class="text-nowrap text-decoration-none text-reset"><%= ele.createdBy.userName %></a></div></td>
+                <td><div class="tableLink"><a href="/profile/<%= ele.assignedTo?._id %>"  class="text-nowrap text-decoration-none text-reset"><%= ele.assignedTo?.userName %></a></div></td>
+                <td class="text-nowrap"><%= ele.tag %> </td>
+                <td class="text-center">
+                    <%- include('../partials/_priorityInput.ejs',{input: ele.priority}) %> 
+                </td>
+                <td class="text-nowrap"><%= ele.status %> </td>
+                <td>
+                    <% if (userIsAdmin || loggedUser.id == (ele.assignedTo?._id || ele.createdBy._id)) { %>
+                    
+                    <div class="d-flex align-items-center">
+                        <!-- modal button edit -->      
+                        <a href="#"  data-bs-toggle="modal" data-bs-target="#editModal<%= ele._id %>">
+                            <i class='bx bx-edit-alt text-success'></i>
+                        </a>
+                        <form action="/task/deleteTask/<%= ele._id %>?_method=DELETE" method="POST">
+                            <button class="btn" type="submit"><i class="bx bx-minus-circle" style="color: tomato;"></i></button>
+                        </form>
+                    </div> 
+                    
+                    <% } %>
+
+                </td>
+            </tr>
+
+            <!-- form edit Modal -->
+            <div class="modal fade " id="editModal<%= ele._id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Edit task</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="/task/updateTask/<%= ele._id %>?_method=PUT" method="POST">
+                            <!-- <input hidden name="project" value="<%= id %>"> -->
+                            <div class="modal-body mx-2">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingEditTitle" name="taskName" value="<%= ele.taskName %>" placeholder="Title">
+                                    <label for="floatingEditTitle">Title</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <textarea rows="5" class="form-control" style="height: auto;" id="floatingEditDescription" name="description" placeholder="Description"><%= ele.description %></textarea>
+                                    <label for="floatingEditDescription">Description</label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="tag">
+                                            <option <%= ele.tag === "bug"? "selected" : "" %> value="bug">Bug</option>
+                                            <option <%= ele.tag === "new feature"? "selected" : "" %> value="new feature">New feature</option>
+                                            <option <%= ele.tag === "todo"? "selected" : "" %> value="todo">To do</option>
+                                            <option <%= ele.tag === "misc"? "selected" : "" %> value="misc">Misc.</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="priority">
+                                            <option <%= ele.priority === "high"? "selected" : "" %> value="high">High</option>
+                                            <option <%= ele.priority === "moderate"? "selected" : "" %> value="moderate">Moderate</option>
+                                            <option <%= ele.priority === "low"? "selected" : "" %> value="low">Low</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="status">
+                                            <option <%= ele.status === "new"? "selected" : "" %> value="new">New</option>
+                                            <option <%= ele.status === "in progress"? "selected" : "" %> value="in progress">In progress</option>
+                                            <option <%= ele.status === "closed"? "selected" : "" %> value="closed">Closed</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <select name="assignedTo" class="form-select form-select-sm">
+                                            <% if (!ele.assignedTo) { %>
+                                                <option selected>Select user</option>  
+                                            <% } %>
+                                            
+                                            <% allUsers?.forEach(element => { %>
+                                                <option <%= ele.assignedTo?._id.toString() === element._id.toString()? "selected":"" %>  value="<%= element._id %>"><%= element.userName %> </option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- end of form edit Modal -->
+
+            <% }) %>
+        </tbody>
+    </table>
+</div>
