@@ -14,7 +14,6 @@ module.exports = {
       } else {
         user = loggedUser
       }
-      //sending req.user.id, since I named my variable user and that's the same name passport uses, so I was having issues comparing logged user to req.params.id
       res.render("profile.ejs", { user, page: "Profile", showSearch: false, loggedUser});
     } catch (err) {
       console.log(err);

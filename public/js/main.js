@@ -39,17 +39,19 @@ if (ctx !== null && line !== null){
             const response = await fetch("/chart")
             const data = await response.json()
 
-            const projectNames = data.project.map(ele => ele.projectName)
-            const numberOfTasks = data.project.map(ele => ele.tasks.length)
+            const publicProjects = data.project.filter(project => project.publish)
+
+            const projectNames = publicProjects.map(ele => ele.projectName)
+            const numberOfTasks = publicProjects.map(ele => ele.tasks.length)
 
             myChart.data.labels = projectNames
             myChart.data.datasets[0].data = numberOfTasks
             myChart.update()
 
             const userNames = data.user.map(user => user.userName)
-            const tasksPerUser = data.user.map(user => user.assignedTasks.length)
+            const tasksPerUser = data.user.map(user => user.assignedTasks.filter(ele=> ele.status !== 'closed').length)
             const projectsPerUser = data.user.map(user => user.createdProjects.length)
-            
+
             lineChart.data.labels = userNames
             lineChart.data.datasets[0].data = tasksPerUser
             lineChart.data.datasets[1].data = projectsPerUser
@@ -144,7 +146,8 @@ if (ctx !== null && line !== null){
                     'rgba(255, 159, 64, 1)'
                 ],
                 borderWidth: 1,
-                yAxisID: 'y1'
+                yAxisID: 'y'
+                /* yAxisID: 'y1' */
             }]
         },
         options: {
@@ -166,21 +169,19 @@ if (ctx !== null && line !== null){
                       precision: 0
                   }
                 },
-                y1: {
+              /*   y1: {
                   type: 'linear',
                   display: true,
                   position: 'right',
-                  //y axis begin at 0
                   beginAtZero: true,
                   ticks: {
-                      //Achieved integers for Y axis
                       precision: 0
                   },
                   // grid line settings
                   grid: {
                     drawOnChartArea: false, // only want the grid lines for one axis to show up
                   },
-                },
+                }, */
             }
           /*   scales:{
                 y: {

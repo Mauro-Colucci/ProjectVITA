@@ -9,31 +9,6 @@ const Comment = require("../models/Comment");
 
 module.exports = {
     //no id brings MY tasks, with id brings a specific project tasks
-    //TODO: refactor=> NO ID: brings all my tasks. :ID brings a single task from MY TASKS
-    //keeps MY TASKS in megatable
-    //replace by getowntask
- /*    getTasks: async (req, res) =>{
-        let task
-        let ProjectId = ""
-        let page = "My Tasks"
-        try {
-            //the id in params is for the project
-            if (req.params.id){
-                ProjectId = req.params.id
-                task = await Task.find({projectId: ProjectId}).sort({createdAt: "desc"}).populate("createdBy assignedTo").lean();
-                page = "Project Tasks"
-            } else {
-                //$ne = not equal to
-                //"desc" sorts with newer first
-                task = await Task.find({assignedTo: req.user.id, status: {$ne:'closed'}}).sort({createdAt: "desc"}).populate("createdBy assignedTo").lean();
-            }
-            const allUsers = await User.find().lean()
-            const userIsAdmin = await User.findById(req.user.id)
-            res.render("singleTask", { task, page, loggedUser: req.user, userIsAdmin: userIsAdmin.isAdmin , showSearch: true, id: ProjectId, allUsers})
-        } catch (err) {
-            console.error(err)
-        }
-    }, */
     getOwnTask: async(req, res)=>{
         let singleTask = null
         let comments = null
@@ -47,17 +22,14 @@ module.exports = {
             const allUsers = await User.find().lean()
             const reqUserIsAdmin = await User.findById(req.user.id)
             //res.json({singleTask, myActiveTasks, allUsers, userIsAdmin: reqUserIsAdmin.isAdmin, comments})
-            //renamed singleTask to taskPage
             res.render("taskPage", {task: myActiveTasks, allUsers, singleTask, page: "My Tasks", comments, showSearch: true, loggedUser: req.user, userIsAdmin: reqUserIsAdmin.isAdmin, id, myTask: true})
 
         } catch (err) {
             console.error(err)
         }
     },
-    // route could be something like projectTasks/:projectId/:taskId?
-    //projectTasks/:projectId should bring ALL tasks from a singleProject
+    //projectTasks/:projectId brings ALL tasks from a singleProject
     //projectTasks/:projectId/:taskId brings a specific task for that project
-    //keeps tasks for that specific project in mega table
     getProjectTask: async(req, res)=>{
         let singleTask = null
         let comments = null
@@ -75,19 +47,6 @@ module.exports = {
             console.error(err)
         }
     },
-    //replaced by singleprojecttask
- /*    getSingleTask: async(req, res)=>{
-        try {
-            const task = await Task.findById(req.params.id).populate("projectId createdBy assignedTo").lean();
-            const tasks = await Task.find({projectId: task.projectId, status: {$ne:'closed'}}).populate("createdBy assignedTo").lean();
-            const comments = await Comment.find({taskId: req.params.id}).sort({createdAt: "desc"}).populate("createdBy").lean()
-            const allUsers = await User.find().lean()
-            const userIsAdmin = await User.findById(req.user.id)
-            res.render("singleTask", { singleTask: task, userIsAdmin: userIsAdmin.isAdmin ,  task: tasks, page: "Project Tasks", loggedUser: req.user, showSearch: true, id: task.projectId, comments, allUsers})
-        } catch (err) {
-            console.error(err)
-        }
-    }, */
     creatTask: async (req, res) => {
         try {
             //const result = await cloudinary.uploader.upload(req.file.path);
@@ -99,7 +58,6 @@ module.exports = {
             description: req.body.description,
             tag: req.body.tag,
             priority: req.body.priority,
-            //status: req.body.status,
             createdBy: req.user.id,
             projectId
             });

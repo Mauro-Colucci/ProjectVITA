@@ -9,8 +9,7 @@ module.exports = {
   getChartData: async (req, res) => {
     let user, task, project, comment
     try {
-      user = await User.find().lean();
-      //while this sends the correct info: all tasks except the ones that are closed, I'm using user and project info to trace graphs, need to review this
+      user = await User.find().populate('assignedTasks').lean();
       task = await Task.find({ status: {$ne: "closed"} }).lean();
       project = await Project.find().populate("user").lean();
       comment = await Comment.find().lean();
