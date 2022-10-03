@@ -10,8 +10,7 @@
           <p class="card-text">Amount per project.</p>
         </div>
         <ul class="list-group list-group-flush">
-          <% projects.sort((a,b)=> b.tasks.length - a.tasks.length) %>
-          <% for( let i = 0; i < 5; i++ ) { %>
+          <% for( let i = 0; i < (projects.length>5? 5 : projects.length); i++ ) { %>
            <li class="list-group-item">
             <div class="d-grid gap-2 col-8 mx-auto my-1">
               <a href="/task/projectTask/<%= projects[i]._id %> " class="btn btn-light position-relative">
@@ -39,19 +38,36 @@
 
           </div>
           <div class="table-responsive">
-            <table id="myTable" class="table table-hover">
+            <table id="myTable" class="table table-hover dashboardTable">
               <thead class="table-dark">
                 <tr>
+                  <th scope="col"><i class='bx bxs-heart'></i></th>
                   <th scope="col" class="text-nowrap">Project name</th>
                   <th scope="col">Description</th>
                   <th scope="col">Owner</th>
                 </tr>
               </thead>
               <tbody>
-                <% projects.forEach(project => { %>
+                <% projects.forEach(project => { %>      
                   
                 <tr>
-                    <td><div class="tableLink"><a href="/project/<%= project._id %> " class="text-nowrap text-decoration-none text-reset"><%= project.projectName %></a></div></td>
+                    <td>
+                      <form action="/project/bookmarkProject/<%= project._id %>?_method=PUT" method="POST">
+                        <button type="submit" class="bookmarkBtn">
+                          <%= project.bookmarks?.length %>
+                        </button>
+                      </form> 
+                    </td>
+                    <td>
+                      <div class="tableLink">
+                        <a href="/project/<%= project._id %> " class="text-nowrap text-decoration-none text-reset position-relative">
+                          <%= project.projectName %>
+                          <% if (project.bookmarks.includes(loggedUser.id)) { %>
+                            <span class="position-absolute top-0 start-100 translate-middle p-1 bx bxs-heart"></span>
+                          <% } %>
+                        </a>
+                      </div>
+                    </td>
                     <td><%= project.description %></td>
                     <td><div class="tableLink"><a class="text-nowrap text-decoration-none text-reset" href="/profile/<%= project.user._id %>"><%= project.user.userName %></a></div></td>
                 </tr>

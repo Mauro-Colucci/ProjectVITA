@@ -23,8 +23,7 @@
 
             <form action="/comment/likeComment/<%= element._id %>?_method=PUT" method="POST">
                 <button type="submit" class="commentBtn icon-btn">
-                    <!--if already liked, show full heart by changing the class to bxs. create a comparison, if likes.length > 0 show the number and the class mr-1 -->
-                    <!-- <i class='bx bxs-heart' ></i> -->
+                    <!--if already liked, show full heart by changing the class to bxs. comparison below, if likes.length > 0 show the number and the class mr-1 -->
                     <i class='bx <%= element.likes.includes(loggedUser.id)? "bxs-heart" : "bx-heart" %>'>   
                         <span class=<%= element.likes.length > 0? "ml-1" : "" %>><%= element.likes.length > 0? element.likes.length : "" %> </span> 
                     </i>

@@ -133,7 +133,7 @@ if (ctx !== null && line !== null){
                     'rgba(255, 99, 132, 1)'
                 ],
                 borderWidth: 1,
-                yAxisID: 'y'
+                //yAxisID: 'y'
             },
                 //can add more datasets in the array, so I can plot multiple datasets in the same graph
             {
@@ -146,17 +146,17 @@ if (ctx !== null && line !== null){
                     'rgba(255, 159, 64, 1)'
                 ],
                 borderWidth: 1,
-                yAxisID: 'y'
                 /* yAxisID: 'y1' */
             }]
         },
         options: {
             responsive: true,
+            //maintainAspectRatio: false,
             interaction: {
                 mode: 'index',
             },
-            intersect: false,
-            stacked: false,
+            // intersect: false,
+            // stacked: false,
             scales: {
                 y: {
                   type: 'linear',
@@ -183,24 +183,6 @@ if (ctx !== null && line !== null){
                   },
                 }, */
             }
-          /*   scales:{
-                y: {
-                    //y axis begin at 0
-                    beginAtZero: true,
-                    ticks: {
-                        //Achieved integers for Y axis
-                        precision: 0
-                    }
-                },
-                y1: {
-                    //y axis begin at 0
-                    beginAtZero: true,
-                    ticks: {
-                        //Achieved integers for Y axis
-                        precision: 0
-                    }
-                }
-            } */
         }
     });
 }

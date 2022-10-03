@@ -9,6 +9,8 @@ router.get("/:id?", ensureAuth, projectsController.getProjects);
 router.post("/createProject", projectsController.createProject);
 
 router.put('/editProject/:id',upload.single("file"), projectsController.updateProject)
+router.put("/bookmarkProject/:id", projectsController.bookmarkProject);
+
 
 router.delete("/deleteProject/:id", projectsController.deleteProject);
 

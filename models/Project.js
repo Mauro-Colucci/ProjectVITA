@@ -15,11 +15,14 @@ const ProjectSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  bookmarks: {
+    type: Array,
+    default: []
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  //if true, we can publish our project to be shown in a "comunal" post, so that other users can post issues/comments
   publish: {
     type: Boolean,
     default: false
