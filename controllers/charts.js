@@ -15,6 +15,7 @@ module.exports = {
       comment = await Comment.find().lean();
       if (req.params.id){
         user = await User.findById(req.params.id).lean();
+        task = await Task.find({$or: [ { createdBy: req.params.id }, { assignedTo: req.params.id }]}).lean();
         project = await Project.find({user: req.params.id}).lean(); 
         comment = await Comment.find({createdBy: req.params.id}).lean();
       }

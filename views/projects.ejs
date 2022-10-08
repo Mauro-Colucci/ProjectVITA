@@ -7,8 +7,8 @@
 
       <div class="col-md-3">
 
-        <% if (projectsPage || loggedUser.id == singleProject?.user._id) { %>
-          <%- include('./partials/_myProjectsTable.ejs') %>             
+        <% if (projectsPage || loggedUser.id == singleProject?.user._id || page === "My bookmarks") { %>
+          <%- include('./partials/_myProjectsTable.ejs', {page}) %>             
         <% } %>
 
 

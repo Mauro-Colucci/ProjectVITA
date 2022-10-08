@@ -5,6 +5,7 @@ const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
 //Post Routes - simplified for now
 router.get("/:id?", ensureAuth, projectsController.getProjects);
+router.get("/bookmarks/saved", ensureAuth, projectsController.getBookmarks)
 
 router.post("/createProject", projectsController.createProject);
 

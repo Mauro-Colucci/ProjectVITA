@@ -62,7 +62,7 @@
                       <div class="tableLink">
                         <a href="/project/<%= project._id %> " class="text-nowrap text-decoration-none text-reset position-relative">
                           <%= project.projectName %>
-                          <% if (project.bookmarks.includes(loggedUser.id)) { %>
+                          <% if (project.bookmarks?.includes(loggedUser.id)) { %>
                             <span class="position-absolute top-0 start-100 translate-middle p-1 bx bxs-heart"></span>
                           <% } %>
                         </a>

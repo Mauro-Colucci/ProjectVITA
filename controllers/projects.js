@@ -23,10 +23,20 @@ module.exports = {
             projectsPage = false
             if(project.user._id != req.user.id) page = "Public Projects"
           }
-          res.render("projects", { projects: projects, projectsPage, singleProject: project, page, loggedUser: req.user,allUsers, showSearch: true, myTask: false});
+          res.render("projects", { projects, projectsPage, singleProject: project, page, loggedUser: req.user, allUsers, showSearch: true, myTask: false});
       } catch (err) {
           console.log(err);
       }
+  },
+  getBookmarks: async (req, res) => {
+    try {
+      const myBookmarks = await Project.find({bookmarks: {$in: req.user.id}})
+      res.render("projects", { projects: myBookmarks,projectsPage: false,singleProject: undefined, page: "My bookmarks", loggedUser: req.user, showSearch: true, myTask: false});
+
+      //res.status(200).json({myBookmarks})
+    } catch (err) {
+        console.error(err)
+    }
   },
   bookmarkProject: async(req, res) => {
     const userId = req.user.id
