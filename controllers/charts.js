@@ -11,7 +11,7 @@ module.exports = {
     try {
       user = await User.find().populate('assignedTasks').lean();
       task = await Task.find({ status: {$ne: "closed"} }).lean();
-      project = await Project.find().populate("user").lean();
+      project = await Project.find().populate("user tasks").lean();
       comment = await Comment.find().lean();
       if (req.params.id){
         user = await User.findById(req.params.id).lean();
