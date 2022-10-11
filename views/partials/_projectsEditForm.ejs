@@ -31,10 +31,10 @@
 
                 <div class="col-md-4 align-self-center text-center mb-3 mb-md-0">
                     <div class="btn-group">
-                        <% if (singleProject.sourceCode != '') { %>
+                        <% if (singleProject.sourceCode !== '') { %>
                             <a href="<%= singleProject.sourceCode %>" target="_blank" class="btn btn-outline-dark btn-lg"><i class='bx bxl-github'></i></a>
                         <% } %>
-                        <% if (singleProject.liveDemo != '') { %>
+                        <% if (singleProject.liveDemo !== '') { %>
                             <a href="<%= singleProject.liveDemo %>" target="_blank" class="btn btn-outline-dark btn-lg"><i class='bx bxs-invader'></i></a>
                         <% } %>
                     </div>
