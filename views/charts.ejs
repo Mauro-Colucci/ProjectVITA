@@ -1,0 +1,51 @@
+<%- include('./layout/header.ejs') %>
+
+<main>
+    <div class="row mt-4">
+
+      <div class="col-md-3">
+        <h4>Analytics</h4>
+
+        <select id="appUserList" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+            <option value='' selected>Select user</option>
+            <% users.forEach(user => { %>
+                <option value="<%= user._id %>"><%= user.userName %> </option> 
+            <% }) %>
+          </select>
+
+      </div>
+
+
+      <div class="col-md-9 hidden" id="checkShow">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">User stats</h5>
+            <canvas id="radarChart" style="max-height: 550px;"></canvas>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-8 pb-4 pb-md-0">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Task/Projects per user</h5>
+              <canvas id="barChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Tasks per project</h5>
+              <canvas id="myChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+</main>
+
+<%- include('./layout/footer.ejs') %> 

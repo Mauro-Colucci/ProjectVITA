@@ -3,6 +3,7 @@ const wrapper = document.querySelector('.wrapper')
 let sideNav = localStorage.getItem("sideNav");
 const ctx = document.getElementById('myChart')//.getContext('2d');
 const line = document.getElementById('barChart')//.getContext('2d');
+const radar = document.getElementById('radarChart')
 
 
 const activeSidenav = () => {
@@ -24,6 +25,91 @@ btn.addEventListener('click', () => {
     sideNav = localStorage.getItem("sideNav")
     sideNav? inactiveSidenav():activeSidenav()
 });
+
+
+if (radar !== null){
+    radar.getContext('2d');
+
+    const selectDom = document.getElementById("appUserList")
+    // When you select an option it will call getGraph function
+    selectDom.addEventListener("change", getGraph);
+
+    async function getGraph(){
+        // call getSelectedUrl to get new url based in selected option
+        const selectedOption = selectDom.value
+
+        selectedOption? document.querySelector('#checkShow').classList.remove("hidden") : document.querySelector('#checkShow').classList.add("hidden")
+
+        const newUrl = selectedOption? `/chart/${selectedOption}/` : '/chart'
+        try {  
+            // call the API with the new url
+            const response = await fetch(newUrl)
+            const data = await response.json()
+            
+            let labels =[]
+            let datasetData = []
+            for(let key in data){
+                
+                if(key === 'task'){
+                    labels.push(key)
+                    datasetData.push(data[key].filter(ele=> ele.status !== 'closed').length)
+                } else if(key !== 'user'){
+                    labels.push(key)
+                    datasetData.push(data[key].length)
+                }
+            }
+            radarGraph.data.labels = labels
+            radarGraph.data.datasets[0].data = datasetData
+            radarGraph.data.datasets[0].label = data.user.userName
+            radarGraph.update()
+
+            
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    const radarGraph = new Chart(radar, {
+        type: 'radar',
+        //type: 'doughnut',
+        data: {
+            labels: [],
+            datasets: [{
+              label: '',
+              data: [],
+              fill: true,
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgb(255, 99, 132)',
+              pointBackgroundColor: 'rgb(255, 99, 132)',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: 'rgb(255, 99, 132)'
+            }/* , {
+              label: 'My Second Dataset',
+              data: [28, 48, 40, 19, 96, 27, 100],
+              fill: true,
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              borderColor: 'rgb(54, 162, 235)',
+              pointBackgroundColor: 'rgb(54, 162, 235)',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: 'rgb(54, 162, 235)'
+            } */]
+          },
+        options: {
+            responsive: true,
+            scales: {
+                r: {             
+                  beginAtZero: true,
+                  ticks: {
+                    //Achieved integers for Y axis
+                    precision: 0
+                    } 
+                }
+            }
+        }
+    });
+}
 
 
 
@@ -52,7 +138,7 @@ if (ctx !== null && line !== null){
                 }
             }
             const numberOfTasks = publicProjects.map(ele => ele.tasks.length)
-
+            
             myChart.data.labels = projectNames
             myChart.data.datasets[0].data = numberOfTasks
             myChart.update()
@@ -104,6 +190,7 @@ if (ctx !== null && line !== null){
 
     const myChart = new Chart(ctx, {
         type: 'pie',
+        //type: 'doughnut',
         data: {
             labels: [],
             datasets: [{

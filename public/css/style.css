@@ -396,6 +396,10 @@ body{
 
 /* Top navbar end*/
 
+.hidden {
+    display: none;
+}
+
 /*dataTable*/
 
 .bookmarkBtn {
