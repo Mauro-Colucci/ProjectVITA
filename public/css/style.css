@@ -3,7 +3,14 @@
 
 :root{
     --primary-bg: #1d1d1d;
+    --off-white-bg: #f2f3f4;
+    --ghost-white: #f8f8ff;
 }
+
+/* .row .card, 
+.card .list-group-item {
+    background-color: var(--ghost-white);
+} */
 
 body{
     min-height: 100vh;
@@ -11,6 +18,7 @@ body{
     /* font-size: 62.5%; */
     margin: 0;
     padding: 0;
+    background-color: var(--off-white-bg);
 }
 
 /*********login page**********/

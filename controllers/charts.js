@@ -7,18 +7,18 @@ const User = require("../models/User");
 module.exports = {
   //I'll use user ids in params.id
   getChartData: async (req, res) => {
-    let user, task, project, comment, closedTasks
+    let user, task, project, comment, closedTasks, createdTask
     try {
       user = await User.find().populate('assignedTasks').lean();
       task = await Task.find({ status: {$ne: "closed"} }).lean();
       closedTasks = await Task.find({ status: "closed"}).lean();
       project = await Project.find().populate("user tasks").lean();
-      comment = await Comment.find().lean();
+      //comment = await Comment.find().lean();
       if (req.params.id){
 
-        //separate tasks in createdBy and assignedTo?
+        
         user = await User.findById(req.params.id).lean();
-        task = await Task.find({
+        /* task = await Task.find({
           $or: [ 
             //{ createdBy: req.params.id }, 
             { assignedTo: req.params.id }
@@ -30,11 +30,24 @@ module.exports = {
               { assignedTo: req.params.id }
             ]}, 
             {status: "closed"}
-          ]}).lean();
+          ]}).lean(); */
+          
+          //separate tasks in createdBy and assignedTo
+          task = await Task.find({assignedTo: req.params.id }).lean();
+          createdTask = await Task.find({createdBy: req.params.id }).lean();
+
+          closedTasks = await Task.find({
+            $and: [{
+              $or: [
+                //{ createdBy: req.params.id }, 
+                { assignedTo: req.params.id }
+              ]}, 
+              {status: "closed"}
+            ]}).lean();
         project = await Project.find({user: req.params.id}).lean(); 
         comment = await Comment.find({createdBy: req.params.id}).lean();
       }
-      res.status(200).json({user, task, project, /* comment, */ closedTasks})
+      res.status(200).json({user, task, project, comment, closedTasks, createdTask})
     } catch (err) {
       console.log(err);
     }
