@@ -21,7 +21,7 @@
 
           <div class="footer">
 
-            <form action="/comment/likeComment/<%= element._id %>?_method=PUT" method="POST">
+            <form action="/comment/likeComment/<%= element._id %>?_method=PUT" method="POST" >
                 <button type="submit" class="commentBtn icon-btn">
                     <!--if already liked, show full heart by changing the class to bxs. comparison below, if likes.length > 0 show the number and the class mr-1 -->
                     <i class='bx <%= element.likes.includes(loggedUser.id)? "bxs-heart" : "bx-heart" %>'>   
