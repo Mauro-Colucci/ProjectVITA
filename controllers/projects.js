@@ -23,10 +23,34 @@ module.exports = {
             projectsPage = false
             if(project.user._id != req.user.id) page = "Public Projects"
           }
-          res.render("projects", { projects: projects, projectsPage, singleProject: project, page, loggedUser: req.user,allUsers, showSearch: true, myTask: false});
+          res.render("projects", { projects, projectsPage, singleProject: project, page, loggedUser: req.user, allUsers, showSearch: true, myTask: false});
       } catch (err) {
           console.log(err);
       }
+  },
+  getBookmarks: async (req, res) => {
+    try {
+      const myBookmarks = await Project.find({bookmarks: {$in: req.user.id}})
+      res.render("projects", { projects: myBookmarks,projectsPage: false,singleProject: undefined, page: "My bookmarks", loggedUser: req.user, showSearch: true, myTask: false});
+
+      //res.status(200).json({myBookmarks})
+    } catch (err) {
+        console.error(err)
+    }
+  },
+  bookmarkProject: async(req, res) => {
+    const userId = req.user.id
+    try {
+       const bookmarkedProject = await Project.findById(req.params.id);
+       if (!bookmarkedProject.bookmarks.includes(userId)) {
+         await bookmarkedProject.updateOne({ $push: { bookmarks: userId } });
+       } else {
+         await bookmarkedProject.updateOne({ $pull: { bookmarks: userId } });
+       }
+       res.redirect("back");
+    } catch (err) {
+      console.error(err)
+    }
   },
   updateProject: async(req, res) =>{
     let result
@@ -55,9 +79,13 @@ module.exports = {
   getFeed: async (req, res) => {
     try {
       //need to fetch info for the dashboard
-      const projects = await Project.find({publish: {$ne: false}}).sort({ createdAt: "asc" }).populate('user').lean();
-      //investigate if I need to add a new field to store the length of the tasks array like:
-      //findByIdAndUpdate(id, {"$push": { "answers": answerId }, "$inc": { "answerLength": 1 } })
+      const projects = await Project
+                                    .find({publish: {$ne: false}}) //find all documents with publish not equal to false
+                                    //.sort({ createdAt: "asc" }) // sort it by createdAt in ascending order
+                                    .populate('user') //populate the user key with the corresponding mongoose object
+                                    .populate({path: 'tasks', match: {status : { $ne: 'closed'}}}) //populate the "tasks" path matching the status to be not equal to closed. ie: only bring the tasks that are not closed.
+                                    .lean(); //bring a POJO, which is "leaner" ie: smaller in size.
+      projects.sort((a,b)=> b.tasks.length - a.tasks.length) // sort projects by number of tasks in descending order      
       res.render("dashboard.ejs", { projects, loggedUser: req.user, page: "Dashboard", showSearch: true });
     } catch (err) {
       console.log(err);

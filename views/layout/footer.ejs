@@ -19,7 +19,7 @@
         <script>
             $(document).ready(function () {
                 const table = $('#myTable').DataTable({
-                    pageLength: 6,
+                    pageLength: 5,
                     language: {
                         /* search: "_INPUT_",
                         searchPlaceholder: "Search...", */
@@ -34,6 +34,11 @@
                     dom: 'rt<"d-flex flex-row-reverse justify-content-between mt-4"ip>'
                   
                 });
+                
+                if ($('#myTable').hasClass('dashboardTable')){
+                    table.order([0, "dsc"]).draw();
+                }
+ 
 
                 const smallTable = $('#mySmallTable').DataTable({
                     pageLength: 5,

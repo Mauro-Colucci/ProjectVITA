@@ -1,6 +1,13 @@
 <div class="card overflow-hidden mb-4">
     <img src= <%= singleProject?.image || "https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/styles/950/public/media/image/2019/05/rick-morty-temporada-4-llegara-noviembre.jpg?itok=6Bguw2Cu" %> alt="">
-    <div class="card-footer">
+    <div class="card-footer d-flex justify-content-between">
       <%= singleProject.projectName %>
+
+      <form action="/project/bookmarkProject/<%= singleProject._id %>?_method=PUT" method="POST">
+      
+        <button type="submit" class="bookmarkBtn bx <%= singleProject.bookmarks?.includes(loggedUser.id)? "bxs" : "bx" %>-heart"></button>
+
+      </form> 
+
     </div>
 </div>

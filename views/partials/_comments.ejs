@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-body">
-      <h5 class="card-title pb-2">Comments</h5>
+      <h6 class="card-title pb-2">Updates / Comments</h5>
       <form action="/comment/createComment/<%= singleTask?._id %>" method="POST">
           <div class="input-group mb-3">
               <textarea class="form-control" placeholder="write a comment..." name="comment" aria-label="comment area" aria-describedby="button-addon2"></textarea>
@@ -21,10 +21,9 @@
 
           <div class="footer">
 
-            <form action="/comment/likeComment/<%= element._id %>?_method=PUT" method="POST">
+            <form action="/comment/likeComment/<%= element._id %>?_method=PUT" method="POST" >
                 <button type="submit" class="commentBtn icon-btn">
-                    <!--if already liked, show full heart by changing the class to bxs. create a comparison, if likes.length > 0 show the number and the class mr-1 -->
-                    <!-- <i class='bx bxs-heart' ></i> -->
+                    <!--if already liked, show full heart by changing the class to bxs. comparison below, if likes.length > 0 show the number and the class mr-1 -->
                     <i class='bx <%= element.likes.includes(loggedUser.id)? "bxs-heart" : "bx-heart" %>'>   
                         <span class=<%= element.likes.length > 0? "ml-1" : "" %>><%= element.likes.length > 0? element.likes.length : "" %> </span> 
                     </i>

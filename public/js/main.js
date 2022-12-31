@@ -2,7 +2,8 @@ let btn = document.querySelector('.profile')
 const wrapper = document.querySelector('.wrapper')
 let sideNav = localStorage.getItem("sideNav");
 const ctx = document.getElementById('myChart')//.getContext('2d');
-const line = document.getElementById('lineChart')//.getContext('2d');
+const line = document.getElementById('barChart')//.getContext('2d');
+const radar = document.getElementById('radarChart')
 
 
 const activeSidenav = () => {
@@ -26,6 +27,91 @@ btn.addEventListener('click', () => {
 });
 
 
+if (radar !== null){
+    radar.getContext('2d');
+
+    const selectDom = document.getElementById("appUserList")
+    // When you select an option it will call getGraph function
+    selectDom.addEventListener("change", getGraph);
+
+    async function getGraph(){
+        // call getSelectedUrl to get new url based in selected option
+        const selectedOption = selectDom.value
+
+        selectedOption? document.querySelector('#checkShow').classList.remove("hidden") : document.querySelector('#checkShow').classList.add("hidden")
+
+        const newUrl = selectedOption? `/chart/${selectedOption}/` : '/chart'
+        try {  
+            // call the API with the new url
+            const response = await fetch(newUrl)
+            const data = await response.json()
+            
+            let labels =[]
+            let datasetData = []
+            for(let key in data){
+                
+                if(key === 'task'){
+                    labels.push(key)
+                    datasetData.push(data[key].filter(ele=> ele.status !== 'closed').length)
+                } else if(key !== 'user'){
+                    labels.push(key)
+                    datasetData.push(data[key].length)
+                }
+            }
+            radarGraph.data.labels = labels
+            radarGraph.data.datasets[0].data = datasetData
+            radarGraph.data.datasets[0].label = data.user.userName
+            radarGraph.update()
+
+            
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    const radarGraph = new Chart(radar, {
+        type: 'radar',
+        //type: 'doughnut',
+        data: {
+            labels: [],
+            datasets: [{
+              label: '',
+              data: [],
+              fill: true,
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgb(255, 99, 132)',
+              pointBackgroundColor: 'rgb(255, 99, 132)',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: 'rgb(255, 99, 132)'
+            }/* , {
+              label: 'My Second Dataset',
+              data: [28, 48, 40, 19, 96, 27, 100],
+              fill: true,
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              borderColor: 'rgb(54, 162, 235)',
+              pointBackgroundColor: 'rgb(54, 162, 235)',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: 'rgb(54, 162, 235)'
+            } */]
+          },
+        options: {
+            responsive: true,
+            scales: {
+                r: {             
+                  beginAtZero: true,
+                  ticks: {
+                    //Achieved integers for Y axis
+                    precision: 0
+                    } 
+                }
+            }
+        }
+    });
+}
+
+
 
 
 
@@ -39,23 +125,36 @@ if (ctx !== null && line !== null){
             const response = await fetch("/chart")
             const data = await response.json()
 
-            const publicProjects = data.project.filter(project => project.publish)
+            //grabs projects with publish true, filtering out projects without tasks
+            const publicProjects = data.project.filter(project => project.publish && project.tasks.length)
 
             const projectNames = publicProjects.map(ele => ele.projectName)
-            const numberOfTasks = publicProjects.map(ele => ele.tasks.length)
+            //const numberOfTasks = publicProjects.map(ele => ele.tasks.length)
 
+            //removing the completed tasks from the publicProjects array
+            for(let i=0; i<publicProjects.length; i++){
+                for(let key of publicProjects){
+                    key.tasks = key.tasks.filter(task=> task.status !=='closed')
+                }
+            }
+            const numberOfTasks = publicProjects.map(ele => ele.tasks.length)
+            
             myChart.data.labels = projectNames
             myChart.data.datasets[0].data = numberOfTasks
             myChart.update()
 
-            const userNames = data.user.map(user => user.userName)
+            //array of users, filtering out users with no tasks or projects
+            const userNames = data.user.filter(ele=> ele.assignedTasks.length && ele.createdProjects.length).map(user => user.userName)
+            //number of tasks open (not closed) per user
             const tasksPerUser = data.user.map(user => user.assignedTasks.filter(ele=> ele.status !== 'closed').length)
+            const closedTasks =  data.user.map(user => user.assignedTasks.filter(ele=> ele.status === 'closed').length)
             const projectsPerUser = data.user.map(user => user.createdProjects.length)
 
-            lineChart.data.labels = userNames
-            lineChart.data.datasets[0].data = tasksPerUser
-            lineChart.data.datasets[1].data = projectsPerUser
-            lineChart.update()
+            barChart.data.labels = userNames
+            barChart.data.datasets[0].data = tasksPerUser
+            barChart.data.datasets[1].data = projectsPerUser
+            barChart.data.datasets[2].data = closedTasks
+            barChart.update()
             
            /*  const arr = data.project.map(ele=> [ele.user.userName, ele.projectName])
             const entry = arr.map(a=>Object.fromEntries([a]))
@@ -78,8 +177,8 @@ if (ctx !== null && line !== null){
             
             console.log(data.user, userProjectObj)
 
-            lineChart.data.datasets[1].data = projectsPerUser.map(ele=> ele.length)
-            lineChart.update()
+            barChart.data.datasets[1].data = projectsPerUser.map(ele=> ele.length)
+            barChart.update()
  */
 
         } catch (err) {
@@ -91,25 +190,26 @@ if (ctx !== null && line !== null){
 
     const myChart = new Chart(ctx, {
         type: 'pie',
+        //type: 'doughnut',
         data: {
             labels: [],
             datasets: [{
                 data: [],
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
+                    'rgba(255, 99, 132, .7)',
+                    'rgba(54, 162, 235, .7)',
+                    'rgba(255, 206, 86, .7)',
+                    'rgba(75, 192, 192, .7)',
+                    'rgba(153, 102, 255, .7)',
+                    'rgba(255, 159, 64, .7)'
                 ],
                 borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 206, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(153, 102, 255)',
+                    'rgb(255, 159, 64)'
                 ],
                 borderWidth: 1
             }]
@@ -119,55 +219,68 @@ if (ctx !== null && line !== null){
         }
     });
 
-    const lineChart = new Chart(line, {
-        type: 'line',
+    const barChart = new Chart(line, {
+        type: 'bar',
         data: {
             labels: [],
             datasets: [{
-                label: 'Tasks assigned',
+                label: 'Tasks',
                 data: [],
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)'
+                    'rgba(255, 99, 132, .7)'
                 ],
                 borderColor: [
-                    'rgba(255, 99, 132, 1)'
+                    'rgb(255, 99, 132)'
                 ],
                 borderWidth: 1,
-                yAxisID: 'y'
+                //yAxisID: 'y'
             },
                 //can add more datasets in the array, so I can plot multiple datasets in the same graph
             {
-                label: 'Projects active',
+                label: 'Projects',
                 data: [],
                 backgroundColor: [
-                    'rgba(255, 159, 64, 0.2)'
+                    'rgba(54, 162, 235, .7)'
                 ],
                 borderColor: [
-                    'rgba(255, 159, 64, 1)'
+                    'rgb(54, 162, 235)'
                 ],
                 borderWidth: 1,
-                yAxisID: 'y'
                 /* yAxisID: 'y1' */
-            }]
+            },
+            {
+                label: 'Closed tasks',
+                data: [],
+                backgroundColor: [
+                    'rgba(255, 206, 86, .7)'
+                ],
+                borderColor: [
+                    'rgb(255, 206, 86)'
+                ],
+                borderWidth: 1,
+                /* yAxisID: 'y1' */
+            }
+        ]
         },
         options: {
             responsive: true,
-            interaction: {
+            //maintainAspectRatio: false,
+            /* interaction: {
                 mode: 'index',
-            },
-            intersect: false,
-            stacked: false,
+            }, */
+            // intersect: false,
+            // stacked: false,
             scales: {
                 y: {
-                  type: 'linear',
+                  //type: 'linear',
                   display: true,
-                  position: 'left',
+                  //position: 'left',
                   //y axis begin at 0
                   beginAtZero: true,
-                  ticks: {
+                  /* ticks: {
                       //Achieved integers for Y axis
                       precision: 0
-                  }
+                  } */
                 },
               /*   y1: {
                   type: 'linear',
@@ -183,24 +296,6 @@ if (ctx !== null && line !== null){
                   },
                 }, */
             }
-          /*   scales:{
-                y: {
-                    //y axis begin at 0
-                    beginAtZero: true,
-                    ticks: {
-                        //Achieved integers for Y axis
-                        precision: 0
-                    }
-                },
-                y1: {
-                    //y axis begin at 0
-                    beginAtZero: true,
-                    ticks: {
-                        //Achieved integers for Y axis
-                        precision: 0
-                    }
-                }
-            } */
         }
     });
 }

@@ -37,7 +37,7 @@ module.exports = {
             const projectAllTasks = await Task.find({projectId: req.params.projectId, status: {$ne:'closed'}}).populate("createdBy assignedTo").lean();
             if(req.params.taskId){
                 singleTask = await Task.findById(req.params.taskId).populate("projectId createdBy assignedTo").lean();
-                comments = await Comment.find({taskId: req.params.myTasksId}).sort({createdAt: "desc"}).populate("createdBy").lean()
+                comments = await Comment.find({taskId: req.params.taskId}).sort({createdAt: "desc"}).populate("createdBy").lean()
             }
             const allUsers = await User.find().lean()
             const reqUserIsAdmin = await User.findById(req.user.id)
