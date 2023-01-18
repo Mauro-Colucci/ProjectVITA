@@ -1,0 +1,124 @@
+@import "../../style.scss";
+
+.navbar {
+  @include themify($themes) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    height: 6rem;
+    border-bottom: 1px solid themed("border");
+    position: sticky;
+    top: 0;
+    background-color: themed("bg");
+    color: themed("textColor");
+    z-index: 999;
+
+    svg {
+      font-size: 2.4rem;
+    }
+    i {
+      font-size: 2.4rem;
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border: 1px solid themed("border");
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+
+      input {
+        border: none;
+        width: 500px;
+        background-color: transparent;
+        color: themed("textColor");
+
+        &:focus {
+          outline: none;
+        }
+
+        @include mobile {
+          display: none;
+        }
+
+        @include tablet {
+          width: 200px;
+        }
+      }
+    }
+
+    .left {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+
+      span {
+        font-weight: bold;
+        font-size: 2rem;
+        color: themed("logo");
+      }
+    }
+
+    .right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+
+      @include mobile {
+        display: none;
+      }
+
+      .user {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        position: relative;
+
+        &:hover {
+          img {
+            opacity: 0;
+          }
+          span {
+            opacity: 0;
+          }
+          &:after {
+            opacity: 1;
+          }
+        }
+
+        &:after {
+          content: "Logout";
+          font-size: 1.69rem;
+          letter-spacing: 0.32rem;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          opacity: 0;
+          transition: all 0.3s ease-in-out;
+        }
+
+        @include tablet {
+          display: none;
+        }
+
+        img {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          object-fit: cover;
+          transition: all 0.3s ease-in-out;
+        }
+
+        span {
+          font-size: 1.6rem;
+          transition: all 0.3s ease-in-out;
+        }
+      }
+    }
+  }
+}

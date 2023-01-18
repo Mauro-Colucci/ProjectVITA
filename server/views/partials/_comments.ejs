@@ -1,0 +1,78 @@
+<div class="card">
+    <div class="card-body">
+      <h6 class="card-title pb-2">Updates / Comments</h5>
+      <form action="/comment/createComment/<%= singleTask?._id %>" method="POST">
+          <div class="input-group mb-3">
+              <textarea class="form-control" placeholder="write a comment..." name="text" aria-label="comment area" aria-describedby="button-addon2"></textarea>
+              <button class="btn btn-outline-primary" type="submit" id="button-addon2">Post</button>
+          </div>
+      </form>
+      <% comments?.forEach(element => { %>
+      <div class="comment">
+          <div class="header">
+              <span class="name"><%= element.createdBy.userName %> </span>
+              <span><%= element.createdAt.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'}) %> </span>
+          </div>
+          <div class="message">
+              <%= element.text %> 
+          </div>
+
+          <div class="d-flex justify-content-between">
+
+          <div class="footer">
+
+            <form action="/comment/likeComment/<%= element._id %>?_method=PUT" method="POST" >
+                <button type="submit" class="commentBtn icon-btn">
+                    <!--if already liked, show full heart by changing the class to bxs. comparison below, if likes.length > 0 show the number and the class mr-1 -->
+                    <i class='bx <%= element.likes.includes(loggedUser.id)? "bxs-heart" : "bx-heart" %>'>   
+                        <span class=<%= element.likes.length > 0? "ml-1" : "" %>><%= element.likes.length > 0? element.likes.length : "" %> </span> 
+                    </i>
+                </button>
+            </form>
+
+            <% if (loggedUser.isAdmin || loggedUser.id == element.createdBy._id) { %>
+
+
+            <!-- modal button to add new projects -->
+            <button type="button" class="commentBtn icon-btn" data-bs-toggle="modal" data-bs-target="#editCommentModal">
+                <i class='bx bx-edit-alt'></i>
+            </button>
+
+            <form action="/comment/deleteComment/<%= element._id %>?_method=DELETE" method="POST">
+                <button type="submit" class="commentBtn icon-btn danger">
+                    <i class='bx bx-trash'></i>
+                </button>
+            </form>
+
+            <% } %>
+
+            <!-- Modal -->
+            <div class="modal fade " id="editCommentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="d-flex justify-content-between pt-3 px-3">
+                            <h5 class="modal-title" id="staticBackdropLabel">Changed your mind?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        
+                        <form action="/comment/editComment/<%= element._id %>?_method=PUT" method="POST">
+                            <div class="input-group p-3">
+                                <textarea class="form-control" rows="4" placeholder="write a comment..." name="editComment" aria-label="comment area"><%= element.text %></textarea>
+                                <button class="btn btn-outline-success" type="submit">Edit</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end of Modal -->
+
+            </div>
+            <span class="edited"><%= element.edited? "edited" : "" %> </span>
+          </div>
+      </div>
+      <% }) %>
+         
+      
+    </div>
+  </div>

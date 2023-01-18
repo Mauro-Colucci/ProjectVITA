@@ -1,0 +1,98 @@
+@import "../../style.scss";
+
+.register {
+  height: 100vh;
+  background-color: rgb(193, 190, 255);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .card {
+    width: 50%;
+    display: flex;
+    flex-direction: row-reverse;
+    background-color: white;
+    border-radius: 1rem;
+    min-height: 600px;
+    overflow: hidden;
+
+    @include sm-desktop {
+      width: 90%;
+    }
+
+    .left {
+      flex: 1;
+      background: linear-gradient(rgba(39, 11, 96, 0.5), rgba(39, 11, 96, 0.5)),
+        url("https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600")
+          center;
+      background-size: cover;
+      padding: 5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      color: white;
+
+      @include tablet {
+        display: none;
+      }
+
+      h1 {
+        font-size: 10rem;
+        line-height: 10rem;
+      }
+
+      p {
+        font-size: 1.6rem;
+      }
+
+      span {
+        font-size: 1.4rem;
+      }
+
+      button {
+        width: 50%;
+        padding: 1rem;
+        border: none;
+        background-color: white;
+        color: rebeccapurple;
+        font-weight: bold;
+        cursor: pointer;
+      }
+    }
+
+    .right {
+      flex: 1;
+      padding: 5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 5rem;
+      justify-content: center;
+
+      h1 {
+        color: #555;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+
+        input {
+          border: none;
+          border-bottom: 1px solid lightgray;
+          padding: 2rem 1rem;
+        }
+
+        button {
+          width: 50%;
+          padding: 1rem;
+          border: none;
+          background-color: #938eef;
+          color: white;
+          font-weight: bold;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
